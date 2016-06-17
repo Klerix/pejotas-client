@@ -1,0 +1,32 @@
+{
+  "name": "pejotas-client",
+  "version": "4.0.0",
+  "description": "Pejotas client",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "font-awesome": "^4.6.3",
+    "jquery": "~2.2.4"
+  },
+  "devDependencies": {
+    "gulp": "^3.9.1",
+    "gulp-clean-css": "~2.0.9",
+    "gulp-concat": "^2.6.0",
+    "gulp-header": "^1.8.2",
+    "gulp-rename": "^1.2.2",
+    "gulp-replace": "^0.5.4",
+    "gulp-uglify": "^1.5.3"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jaguilar-nice/pejotas-client.git"
+  },
+  "author": "Jordi Aguilar <klerix.com>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jaguilar-nice/pejotas-client/issues"
+  },
+  "homepage": "https://github.com/jaguilar-nice/pejotas-client#readme"
+}
