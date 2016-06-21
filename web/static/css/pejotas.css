@@ -4,6 +4,50 @@
  * @author: Jordi Aguilar <klerix.com>
  */
 
+.pjs-body-container {
+    margin: 0;
+    padding: 0;
+}
+
+.pjs-body {
+    margin: 0 auto;
+    width: 800px;
+    padding: 5px;
+    font-size: 12px;
+    box-sizing: border-box;
+}
+
+/**
+ * pejotas 4.0.0
+ * @license ARV Klerix @ 2016 
+ * @author: Jordi Aguilar <klerix.com>
+ */
+
+.loading {
+    animation: loading 2s linear infinite;
+}
+
+@keyframes loading {
+    0% {
+        border-bottom: 3px solid #76CF48;
+    }
+    33% {
+        border-bottom: 3px solid #025975;
+    }
+    66% {
+        border-bottom: 3px solid #ED5565;
+    }
+    100% {
+        border-bottom: 3px solid #37BC9B;
+    }
+}
+
+/**
+ * pejotas 4.0.0
+ * @license ARV Klerix @ 2016 
+ * @author: Jordi Aguilar <klerix.com>
+ */
+
 .pjs {
     font-family: verdana;
 }
@@ -14,7 +58,7 @@
  * @author: Jordi Aguilar <klerix.com>
  */
 
-.pjs-menu {
+.pjs-menu-container {
     margin: 0;
     position: relative;
     top: 0;
@@ -23,6 +67,13 @@
     font-size: 14px;
     color: white;
     background-color: rgb(38, 42, 55);
+    border-bottom: 3px solid rgb(38, 42, 55);
+}
+
+.pjs-menu {
+    width: 800px;
+    margin: 0 auto;
+    box-sizing: border-box;
 }
 
 .pjs-menu span {

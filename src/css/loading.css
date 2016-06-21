@@ -1,0 +1,18 @@
+.loading {
+    animation: loading 2s linear infinite;
+}
+
+@keyframes loading {
+    0% {
+        border-bottom: 3px solid #76CF48;
+    }
+    33% {
+        border-bottom: 3px solid #025975;
+    }
+    66% {
+        border-bottom: 3px solid #ED5565;
+    }
+    100% {
+        border-bottom: 3px solid #37BC9B;
+    }
+}

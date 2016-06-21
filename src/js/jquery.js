@@ -1,7 +1,7 @@
 (function($) {
 
     $.fn.pejotas = function(grid) {
-        $pjs.director.render(this);
+        $pjs.render(this);
     };
 
 }(jQuery));

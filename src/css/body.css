@@ -1,0 +1,12 @@
+.pjs-body-container {
+    margin: 0;
+    padding: 0;
+}
+
+.pjs-body {
+    margin: 0 auto;
+    width: 800px;
+    padding: 5px;
+    font-size: 12px;
+    box-sizing: border-box;
+}

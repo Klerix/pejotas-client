@@ -1,4 +1,4 @@
-.pjs-menu {
+.pjs-menu-container {
     margin: 0;
     position: relative;
     top: 0;
@@ -7,6 +7,13 @@
     font-size: 14px;
     color: white;
     background-color: rgb(38, 42, 55);
+    border-bottom: 3px solid rgb(38, 42, 55);
+}
+
+.pjs-menu {
+    width: 800px;
+    margin: 0 auto;
+    box-sizing: border-box;
 }
 
 .pjs-menu span {

@@ -6,7 +6,10 @@ var dependencies = {
     "fonts/fontawesome-webfont.svg": "node_modules/font-awesome/fonts/fontawesome-webfont.svg",
     "fonts/fontawesome-webfont.ttf": "node_modules/font-awesome/fonts/fontawesome-webfont.ttf",
     "fonts/fontawesome-webfont.woff": "node_modules/font-awesome/fonts/fontawesome-webfont.woff",
-    "fonts/fontawesome-webfont.woff2": "node_modules/font-awesome/fonts/fontawesome-webfont.woff2"
+    "fonts/fontawesome-webfont.woff2": "node_modules/font-awesome/fonts/fontawesome-webfont.woff2",
+
+    "js/navigo.min.js": "node_modules/navigo/lib/navigo.min.js",
+    "js/navigo.min.js.map": "node_modules/navigo/lib/navigo.min.js.map",
 };
 
 var source = ["src/js/lib.js", "src/js/**/*.js"];
