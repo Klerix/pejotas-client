@@ -5,12 +5,232 @@
  */
 
 var $pjs = $pjs || {
+    config: {
+        server: 'http://localhost:8080/'
+    },
     version: "4.0.0",
     divs: {},
     controllers: [],
-
-
 };
+
+/**
+ * pejotas 4.0.0
+ * @license ARV Klerix @ 2016 
+ * @author: Jordi Aguilar <klerix.com>
+ */
+
+$pjs.director = {
+    render: function($container) {
+        // Create main container
+        $pjs.divs['main'] = $('<div class="pjs" />').appendTo($container);
+
+        // Draw menu
+        $pjs.director._drawMenu();
+
+        // Draw body
+        $pjs.director._drawBody();
+
+        // Draw loader
+        $pjs.spinner._draw();
+
+
+        // Finally: Initialize routes
+        $pjs.director._initRouter();
+    },
+};
+
+
+$pjs.render = function($container) {
+    $pjs.director.render($container);
+};
+
+/**
+ * pejotas 4.0.0
+ * @license ARV Klerix @ 2016 
+ * @author: Jordi Aguilar <klerix.com>
+ */
+
+$pjs.director.menuItems = [
+    { name: "Inicio", icon: 'fa-home', route: '/' },
+    { name: "Listar Habilidades", icon: 'fa-list', route: '/habilidades/lista' },
+    { name: "Subir personaje", icon: 'fa-cloud-upload', route: 'personajes/subir' }
+];
+
+$pjs.director._drawMenu = function() {
+    $pjs.divs['menu-container'] = $('<div class="pjs-menu-container" />').appendTo($pjs.divs['main']);
+    $pjs.divs['menu'] = $('<div class="pjs-menu" />').appendTo($pjs.divs['menu-container']);
+    $('<span>Pejotas <em>v' + $pjs.version + '</em></span>').appendTo($pjs.divs['menu']);
+
+    var $menu = $('<menu />').appendTo($pjs.divs['menu']);
+    $('<span id="pjs-menu-selector"></span>').appendTo($menu);
+    for (var i = 0; i < $pjs.director.menuItems.length; i++) {
+        var item = $pjs.director.menuItems[i];
+        $pjs.director._drawMenuItem($menu, item);
+    }
+};
+
+$pjs.director._drawMenuItem = function($container, item) {
+    var html = '<a title="' + item.name + '">' +
+        '<i class="fa ' + item.icon + '" aria-hidden="true"></i>' +
+        '</a>';
+
+    $(html)
+        .on('mouseout', function(ev) {
+            $('#pjs-menu-selector').text('');
+        })
+        .on('mouseover', function(ev) {
+            $('#pjs-menu-selector').text(this.title);
+        })
+        .on('click', function(ev) {
+            $pjs.router.navigate(item.route);
+        })
+        .appendTo($container);
+};
+
+/**
+ * pejotas 4.0.0
+ * @license ARV Klerix @ 2016 
+ * @author: Jordi Aguilar <klerix.com>
+ */
+
+$pjs.director._drawBody = function() {
+    $pjs.divs['body-container'] = $('<div class="pjs-body-container" />').appendTo($pjs.divs['main']);
+    $pjs.divs['body'] = $('<div class="pjs-body" />').appendTo($pjs.divs['body-container']);
+};
+
+/**
+ * pejotas 4.0.0
+ * @license ARV Klerix @ 2016 
+ * @author: Jordi Aguilar <klerix.com>
+ */
+
+$pjs.spinner = {
+    show: function() {
+        $pjs.divs['loader'].jqxLoader('open');
+    },
+
+    hide: function() {
+        $pjs.divs['loader'].jqxLoader("close");
+    },
+
+    _draw: function() {
+        $pjs.divs['loader'] = $('<div id="jqxLoader" />').appendTo($pjs.divs['main']);
+        $pjs.divs['loader'].jqxLoader({ width: 150, height: 100, text: "Cargando..." })
+    }
+};
+
+/**
+ * pejotas 4.0.0
+ * @license ARV Klerix @ 2016 
+ * @author: Jordi Aguilar <klerix.com>
+ */
+
+$pjs.ajax = function(service, cb) {
+    var request = $.ajax({
+        url: $pjs.config.server + service,
+        dateType: "json"
+    });
+
+    request.done(function(response) {
+        cb(response);
+    });
+
+    request.fail(function(jqXHR, textStatus, errorThrown) {
+        $pjs.notify("La conexi&oacute;n no se ha podido establecer.", "error");
+        console.error("Ajax request failed", errorThrown);
+        $pjs.spinner.hide();
+    });
+};
+
+/**
+ * pejotas 4.0.0
+ * @license ARV Klerix @ 2016 
+ * @author: Jordi Aguilar <klerix.com>
+ */
+
+$pjs.notify = function(message, template) {
+    template = template || "error";
+
+    $('<div style="margin: 0 auto"><div>' + message + '</div></div>')
+        .jqxNotification({
+            opacity: 0.9,
+            autoOpen: true,
+            appendContainer: ".pjs-body",
+            template: template
+        })
+        .on("close", function() {
+            this.remove()
+        });
+};
+
+/**
+ * pejotas 4.0.0
+ * @license ARV Klerix @ 2016 
+ * @author: Jordi Aguilar <klerix.com>
+ */
+
+$pjs.router = new Navigo();
+
+$pjs.director._initRouter = function() {
+    $.each($pjs.controllers, function(k, v) {
+        $pjs.router.on(v).resolve();
+    });
+
+    $pjs.router.on('*', function() {
+        $pjs.divs['body'].html("Route not found");
+    }).resolve();
+};
+
+/**
+ * pejotas 4.0.0
+ * @license ARV Klerix @ 2016 
+ * @author: Jordi Aguilar <klerix.com>
+ */
+
+$pjs.controllers.push({
+    '/habilidades/lista': function(params) {
+        $pjs.divs['body'].html("habs");
+    }
+});
+
+/**
+ * pejotas 4.0.0
+ * @license ARV Klerix @ 2016 
+ * @author: Jordi Aguilar <klerix.com>
+ */
+
+$pjs.controllers.push({
+    '/personajes/subir': function(params) {
+        $pjs.divs['body'].html("upload")
+    }
+})
+
+/**
+ * pejotas 4.0.0
+ * @license ARV Klerix @ 2016 
+ * @author: Jordi Aguilar <klerix.com>
+ */
+
+$pjs.controllers.push({
+    '/': function(params) {
+        $pjs.spinner.show();
+
+        $pjs.ajax('eventos', function(resp) {
+            $("<h2>Eventos</h2>").appendTo($pjs.divs['body']);
+            var wrapper = $('<div class="pjs-wrapper" />').appendTo($pjs.divs['body']);
+            $.each(resp, function(k, v) {
+                var div = $('<div class="pjs-box pjs-evento" />').appendTo(wrapper);
+                if (v.custom_logo) {
+                    div.css("background", "url(" + v.custom_logo + ") no-repeat");
+                } else {
+                    div.html('<div style="padding: 5px"><h3>' + v.nombre + '</h3><p>' + v.descripcion + '</p></div>');
+                }
+            });
+
+            $pjs.spinner.hide();
+        });
+    }
+});
 
 /**
  * pejotas 4.0.0
@@ -205,164 +425,3 @@ $pjs.debug = function( /*...*/ ) {
 $pjs.verbose = function( /*...*/ ) {
     $pjs.report([].slice.call(arguments), 5, 'navy');
 };
-
-/**
- * pejotas 4.0.0
- * @license ARV Klerix @ 2016 
- * @author: Jordi Aguilar <klerix.com>
- */
-
-$pjs.director = {
-    render: function($container) {
-        // Create main container
-        $pjs.divs['main'] = $('<div class="pjs" />').appendTo($container);
-
-        // Draw menu
-        $pjs.director._drawMenu();
-
-        // Draw body
-        $pjs.director._drawBody();
-
-
-
-
-        // Finally: Initialize routes
-        $pjs.director._initRouter();
-    },
-};
-
-
-$pjs.render = function($container) {
-    $pjs.director.render($container);
-};
-
-/**
- * pejotas 4.0.0
- * @license ARV Klerix @ 2016 
- * @author: Jordi Aguilar <klerix.com>
- */
-
-$pjs.director.menuItems = [
-    { name: "Inicio", icon: 'fa-home', route: '/' },
-    { name: "Listar Habilidades", icon: 'fa-list', route: '/habilidades/lista' },
-    { name: "Subir personaje", icon: 'fa-cloud-upload', route: 'personajes/subir' }
-];
-
-$pjs.director._drawMenu = function() {
-    $pjs.divs['menu-container'] = $('<div class="pjs-menu-container" />').appendTo($pjs.divs['main']);
-    $pjs.divs['menu'] = $('<div class="pjs-menu" />').appendTo($pjs.divs['menu-container']);
-    $('<span>Pejotas <em>v' + $pjs.version + '</em></span>').appendTo($pjs.divs['menu']);
-
-    var $menu = $('<menu />').appendTo($pjs.divs['menu']);
-    $('<span id="pjs-menu-selector"></span>').appendTo($menu);
-    for (var i = 0; i < $pjs.director.menuItems.length; i++) {
-        var item = $pjs.director.menuItems[i];
-        $pjs.director._drawMenuItem($menu, item);
-    }
-};
-
-$pjs.director._drawMenuItem = function($container, item) {
-    var html = '<a title="' + item.name + '">' +
-        '<i class="fa ' + item.icon + '" aria-hidden="true"></i>' +
-        '</a>';
-
-    $(html)
-        .on('mouseout', function(ev) {
-            $('#pjs-menu-selector').text('');
-        })
-        .on('mouseover', function(ev) {
-            $('#pjs-menu-selector').text(this.title);
-        })
-        .on('click', function(ev) {
-            $pjs.router.navigate(item.route);
-        })
-        .appendTo($container);
-};
-
-/**
- * pejotas 4.0.0
- * @license ARV Klerix @ 2016 
- * @author: Jordi Aguilar <klerix.com>
- */
-
-$pjs.director._drawBody = function() {
-    $pjs.divs['body-container'] = $('<div class="pjs-body-container" />').appendTo($pjs.divs['main']);
-    $pjs.divs['body'] = $('<div class="pjs-body" />').appendTo($pjs.divs['body-container']);
-};
-
-/**
- * pejotas 4.0.0
- * @license ARV Klerix @ 2016 
- * @author: Jordi Aguilar <klerix.com>
- */
-
-$pjs.spinner = {
-    show: function() {
-        $pjs.divs['body'].html('Cargando...');
-        $pjs.divs['menu-container'].addClass("loading");
-    },
-
-    hide: function() {
-        $pjs.divs['menu-container'].removeClass("loading");
-    }
-};
-
-/**
- * pejotas 4.0.0
- * @license ARV Klerix @ 2016 
- * @author: Jordi Aguilar <klerix.com>
- */
-
-$pjs.router = new Navigo();
-
-$pjs.director._initRouter = function() {
-    $.each($pjs.controllers, function(k, v) {
-        $pjs.router.on(v).resolve();
-    });
-
-    $pjs.router.on('*', function() {
-        $pjs.divs['body'].html("Route not found");
-    }).resolve();
-};
-
-/**
- * pejotas 4.0.0
- * @license ARV Klerix @ 2016 
- * @author: Jordi Aguilar <klerix.com>
- */
-
-$pjs.controllers.push({
-    '/habilidades/lista': function(params) {
-        $pjs.divs['body'].html("habs");
-    }
-});
-
-/**
- * pejotas 4.0.0
- * @license ARV Klerix @ 2016 
- * @author: Jordi Aguilar <klerix.com>
- */
-
-$pjs.controllers.push({
-    '/personajes/subir': function(params) {
-        $pjs.divs['body'].html("upload")
-    }
-})
-
-/**
- * pejotas 4.0.0
- * @license ARV Klerix @ 2016 
- * @author: Jordi Aguilar <klerix.com>
- */
-
-$pjs.controllers.push({
-    '/': function(params) {
-        $pjs.spinner.show();
-
-        setTimeout(function() {
-            $pjs.divs['body'].html("Inicio")
-            $pjs.spinner.hide();
-        }, 5000);
-
-    }
-});

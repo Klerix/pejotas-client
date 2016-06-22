@@ -12,7 +12,7 @@ var dependencies = {
     "js/navigo.min.js.map": "node_modules/navigo/lib/navigo.min.js.map",
 };
 
-var source = ["src/js/lib.js", "src/js/**/*.js"];
+var source = ["src/js/lib.js", "src/js/core/**/*.js", "src/js/**/*.js"];
 var sourceCss = ["src/css/**/*.css"];
 
 
