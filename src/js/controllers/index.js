@@ -1,15 +1,15 @@
 $pjs.controllers.push({
-    '/habilidades/lista': function(params) {
+    '/': function(params) {
         $pjs.spinner.show();
 
-        $pjs.ajax('habilidades', function(resp) {
+        $pjs.ajax('eventos', function(resp) {
             $pjs.divs['body']
                 .empty();
 
-            $("<h2>Habilidades</h2>")
+            $("<h2>Eventos</h2>")
                 .appendTo($pjs.divs['body']);
 
-            $pjs.views.Habilidades.list(resp)
+            $pjs.views.Eventos.list(resp)
                 .appendTo($pjs.divs['body']);
 
             $pjs.spinner.hide();

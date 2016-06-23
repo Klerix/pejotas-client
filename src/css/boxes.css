@@ -2,10 +2,24 @@
     min-height: 100px;
 }
 
+.pjs-wrapper:after {
+    visibility: hidden;
+    display: block;
+    font-size: 0;
+    content: " ";
+    clear: both;
+    height: 0;
+}
+
 .pjs-box {
     border: 1px solid black;
     margin: 5px;
     border-radius: 3px;
+    overflow: hidden;
+}
+
+.pjs-box:hover {
+    background-color: aliceblue;
 }
 
 .pjs-evento {
@@ -15,18 +29,14 @@
     cursor: pointer;
 }
 
-.pjs-evento::after {
-    content: '\A';
-    position: relative;
-    width: 400px;
-    height: 100px;
-    top: 0;
-    left: 0;
-    background: rgba(0, 0, 0, 0.6);
-    opacity: 0;
-    transition: all 1s;
-}
-
-.pjs-evento:hover:after {
-    opacity: 1;
+.pjs-skill {
+    height: 25px;
+    width: 393px;
+    background: #FDFFFF;
+    border: 1px solid black;
+    margin: 1px 3px;
+    padding: 5px;
+    border-radius: 3px;
+    float: left;
+    font-size: 11px;
 }
