@@ -1,6 +1,7 @@
 $pjs.spinner = {
     show: function() {
         $pjs.divs['loader'].jqxLoader('open');
+        $('div.jqx-tooltip').remove()
     },
 
     hide: function() {

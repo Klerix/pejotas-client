@@ -5,12 +5,13 @@
  */
 
 var $pjs = $pjs || {
-    config: {
-        server: 'http://localhost:8080/'
-    },
+    server: 'http://localhost:8080/',
     version: "4.0.0",
+
     divs: {},
-    controllers: [],
+
+    index: '/eventos',
+    controllers: {},
     views: {},
 };
 
@@ -51,16 +52,22 @@ $pjs.render = function($container) {
  * @author: Jordi Aguilar <klerix.com>
  */
 
-$pjs.director.menuItems = [
-    { name: "Inicio", icon: 'fa-home', route: '/' },
-    { name: "Listar Habilidades", icon: 'fa-list', route: '/habilidades/lista' },
-    { name: "Subir personaje", icon: 'fa-cloud-upload', route: 'personajes/subir' }
-];
-
 $pjs.director._drawMenu = function() {
+
     $pjs.divs['menu-container'] = $('<div class="pjs-menu-container" />').appendTo($pjs.divs['main']);
     $pjs.divs['menu'] = $('<div class="pjs-menu" />').appendTo($pjs.divs['menu-container']);
-    $('<span>Pejotas <em>v' + $pjs.version + '</em></span>').appendTo($pjs.divs['menu']);
+    $(
+            '<span style="cursor: pointer;" title="Volver al inicio">' +
+            '<span class="pjs-header">' +
+            '<i class="ra ' + $pjs.director._rndLogo() + '" aria-hidden="true"></i> ' +
+            'Creador de Pejotas' +
+            '</span> ' +
+            '<em>v' + $pjs.version + '</em>' +
+            '</span>'
+
+        )
+        .linkTo('/')
+        .appendTo($pjs.divs['menu']);
 
     var $menu = $('<menu />').appendTo($pjs.divs['menu']);
     $('<span id="pjs-menu-selector"></span>').appendTo($menu);
@@ -72,7 +79,7 @@ $pjs.director._drawMenu = function() {
 
 $pjs.director._drawMenuItem = function($container, item) {
     var html = '<a title="' + item.name + '">' +
-        '<i class="fa ' + item.icon + '" aria-hidden="true"></i>' +
+        '<i class="' + item.icon + '" aria-hidden="true"></i>' +
         '</a>';
 
     $(html)
@@ -82,10 +89,24 @@ $pjs.director._drawMenuItem = function($container, item) {
         .on('mouseover', function(ev) {
             $('#pjs-menu-selector').text(this.title);
         })
-        .on('click', function(ev) {
-            $pjs.router.navigate(item.route);
-        })
+        .linkTo(item.route)
         .appendTo($container);
+};
+
+$pjs.director._rndLogo = function($container, item) {
+    var logoItems = [
+        "ra-player-thunder-struck",
+        "ra-player-pyromaniac",
+        "ra-falling",
+        "ra-muscle-fat",
+        "ra-hydra",
+        "ra-wolf-howl",
+        "ra-burning-meteor",
+        "ra-hood",
+        "ra-castle-emblem",
+        //"ra-angel-wings"
+    ];
+    return logoItems[Math.floor(Math.random() * logoItems.length)];
 };
 
 /**
@@ -108,6 +129,7 @@ $pjs.director._drawBody = function() {
 $pjs.spinner = {
     show: function() {
         $pjs.divs['loader'].jqxLoader('open');
+        $('div.jqx-tooltip').remove()
     },
 
     hide: function() {
@@ -128,7 +150,7 @@ $pjs.spinner = {
 
 $pjs.ajax = function(service, cb) {
     var request = $.ajax({
-        url: $pjs.config.server + service,
+        url: $pjs.server + service,
         dateType: "json"
     });
 
@@ -173,12 +195,10 @@ $pjs.notify = function(message, template) {
 $pjs.router = new Navigo();
 
 $pjs.director._initRouter = function() {
-    $.each($pjs.controllers, function(k, v) {
-        $pjs.router.on(v).resolve();
-    });
+    $pjs.router.on($pjs.controllers).resolve();
 
-    $pjs.router.on('*', function() {
-        $pjs.divs['body'].html("Route not found");
+    $pjs.router.on('/', function() {
+        $pjs.controllers[$pjs.index](); // redirect to chosen index
     }).resolve();
 };
 
@@ -188,41 +208,8 @@ $pjs.director._initRouter = function() {
  * @author: Jordi Aguilar <klerix.com>
  */
 
-
-
-/**
- * pejotas 4.0.0
- * @license ARV Klerix @ 2016 
- * @author: Jordi Aguilar <klerix.com>
- */
-
-$pjs.controllers.push({
-    '/habilidades/lista': function(params) {
-        $pjs.spinner.show();
-
-        $pjs.ajax('habilidades', function(resp) {
-            $pjs.divs['body']
-                .empty();
-
-            $("<h2>Habilidades</h2>")
-                .appendTo($pjs.divs['body']);
-
-            $pjs.views.Habilidades.list(resp)
-                .appendTo($pjs.divs['body']);
-
-            $pjs.spinner.hide();
-        });
-    }
-});
-
-/**
- * pejotas 4.0.0
- * @license ARV Klerix @ 2016 
- * @author: Jordi Aguilar <klerix.com>
- */
-
-$pjs.controllers.push({
-    '/': function(params) {
+$.extend($pjs.controllers, {
+    '/eventos': function(params) {
         $pjs.spinner.show();
 
         $pjs.ajax('eventos', function(resp) {
@@ -246,11 +233,78 @@ $pjs.controllers.push({
  * @author: Jordi Aguilar <klerix.com>
  */
 
-$pjs.controllers.push({
+$.extend($pjs.controllers, {
+    '/habilidades/listar': function(params) {
+        $pjs.spinner.show();
+
+        $pjs.ajax('habilidades', function(habs) {
+            $pjs.ajax('rasgos', function(rasgos) {
+                $pjs.divs['body'].empty();
+
+                var div = $('<div class="lista" />').appendTo($pjs.divs['body']);
+
+                var options = {};
+                if (location.hash) options.selectedItem = location.hash[1];
+
+                $pjs.views.tabs({
+                    "Habilidades": $pjs.views.Habilidad.listar(habs),
+                    "Rasgos": $pjs.views.Rasgo.listar(rasgos),
+                }, options).on('selected', function(event) {
+                    $pjs.router.pause(true);
+                    window.location.hash = event.args.item;
+                    $pjs.router.pause(false);
+                }).appendTo(div);
+
+                $pjs.spinner.hide();
+            });
+        });
+    },
+    '/habilidades/mostrar/:id': function(params) {
+        $pjs.spinner.show();
+
+        $pjs.ajax('habilidades/' + params.id, function(resp) {
+            $pjs.divs['body'].empty();
+
+            var item = new $pjs.views.Habilidad(resp);
+            item.drawView().appendTo($pjs.divs['body']);
+
+            $pjs.spinner.hide();
+        });
+    }
+});
+
+/**
+ * pejotas 4.0.0
+ * @license ARV Klerix @ 2016 
+ * @author: Jordi Aguilar <klerix.com>
+ */
+
+$.extend($pjs.controllers, {
     '/personajes/subir': function(params) {
         $pjs.divs['body'].html("upload")
     }
 })
+
+/**
+ * pejotas 4.0.0
+ * @license ARV Klerix @ 2016 
+ * @author: Jordi Aguilar <klerix.com>
+ */
+
+$.extend($pjs.controllers, {
+    '/rasgos/mostrar/:id': function(params) {
+        $pjs.spinner.show();
+
+        $pjs.ajax('rasgos/' + params.id, function(resp) {
+            $pjs.divs['body'].empty();
+
+            var item = new $pjs.views.Rasgo(resp);
+            item.drawView().appendTo($pjs.divs['body']);
+
+            $pjs.spinner.hide();
+        });
+    }
+});
 
 /**
  * pejotas 4.0.0
@@ -287,9 +341,7 @@ $pjs.views.Eventos = {
         div.jqxTooltip({ content: desc, position: 'mouse' });
 
         // onclick
-        div.on("click", function() {
-            $pjs.router.navigate('/eventos/' + item.id + '/crearpj/')
-        });
+        div.linkTo('/personajes/e' + item.id);
 
         return div;
     }
@@ -301,73 +353,387 @@ $pjs.views.Eventos = {
  * @author: Jordi Aguilar <klerix.com>
  */
 
-$pjs.views.Habilidades = {
-    list: function(items) {
-        var wrapper = $('<div class="pjs-wrapper" />').appendTo($pjs.divs['body']);
-        $.each(items, function(k, v) {
-            $pjs.views.Habilidades.view(v)
-                .appendTo(wrapper);
-        });
-        return wrapper;
+$pjs.views.Habilidad = function(data) {
+    this.data = data;
+
+    // calculate
+    this.data.className = $pjs.nameToClass(data.nombre);
+};
+
+$pjs.views.Habilidad.listar = function(items) {
+    var categoria = '';
+    var wrapper = $('<div class="pjs-wrapper" />');
+    $.each(items, function(k, v) {
+        if (categoria != v.categoria) {
+            categoria = v.categoria;
+            $("<div style='float: left; margin: 0 10px; width: 80%;'><h3>" + categoria + "</h3></div>").appendTo(wrapper);
+        }
+
+        var item = new $pjs.views.Habilidad(v);
+        item.drawItem({ class: 'linkable' }).appendTo(wrapper);
+    });
+
+    return wrapper;
+};
+
+$pjs.views.Habilidad.prototype = {
+
+    getIcon: function() {
+        return '<div ' +
+            'class="pjs-icon icon-' + this.data.className + '" ' +
+            'style="background-image:url(../static/images/habilidades/' + this.data.className + '.gif)" ' +
+            '/>'
     },
 
-    view: function(item) {
-        item.className = $pjs.nameToClass(item.nombre);
-        var div = $('<div class="pjs-box pjs-skill" />');
+    getEffects: function(style, titles) {
+        return '<div class="pjs-effects" style="' + style + '">' + $pjs.views.translateEffects(this.data.efecto, titles) + '</div>';
+    },
+
+    getLetania: function() {
+        if (this.data.letania != '-')
+            return '<p><strong>Letan&iacute;a:</strong> <em>' + this.data.letania + '</em></p>'
+        else
+            return '';
+    },
+
+    getTooltip: function() {
+        return '<div>' +
+            this.getEffects('float: right', false) +
+            this.getIcon() +
+            '<strong>' + this.data.nombre + '</strong><br />' +
+            '<em>' +
+            this.data.categoria + ', ' +
+            this.data.tipo +
+            '</em><br />' +
+            this.getResumen(200) +
+            this.getLetania() +
+            '</div>';
+    },
+
+    getResumen: function(max) {
+        max = max || 55;
+        return this.data.descripcion.length > max ? this.data.descripcion.substring(0, max) + '...' : this.data.descripcion;
+    },
+
+    drawItem: function(options) {
+        options = options || {};
+        var div = $('<div class="pjs-box pjs-skill ' + options.class + '" style="' + options.style + '" />');
 
         // Tipo
-        $('<div style="float: right; color: darkgray;">' + item.tipo + '</div>')
-            .appendTo(div);
+        $(this.getEffects('float: right', false)).appendTo(div);
 
         // Icono
-        $($pjs.views.Habilidades.icon(item))
-            .appendTo(div);
+        $(this.getIcon()).appendTo(div);
 
         // Name & desc
-        var resumen = item.resumen.length > 55 ? item.resumen.substring(0, 55) + '...' : item.resumen;
-        $('<div><strong>' + item.nombre + '</strong><br /><span>' + resumen + '</span></div>')
-            .appendTo(div);
+        $('<div><strong>' +
+            this.data.nombre +
+            '</strong><br />' +
+            '<span style="color: darkgray">' +
+            this.data.categoria + ', ' +
+            this.data.tipo +
+            '</span></div>'
+        ).appendTo(div);
 
         // tooltip
-        div.jqxTooltip({ content: $pjs.views.Habilidades.tooltip(item), position: 'mouse' });
+        div.jqxTooltip({ content: this.getTooltip(), position: 'mouse', width: "400px" });
 
         // onclick
-        //div.on("click", function() {
-        //    $pjs.router.navigate('/habilidades/' + item.id + '/ver/')
-        //});
+        var context = this;
+        div.linkTo('/habilidades/mostrar/' + this.data.id);
 
         return div;
     },
 
-    tooltip: function(item) {
-        return '<div>' +
-            $pjs.views.Habilidades.icon(item) +
-            '<strong>' + item.nombre + '</strong><br />' +
-            '<em>' + item.categoria + '</em><br />' +
-            '<b>Tipo:</b> ' + item.tipo + '<br />' +
-            '<b>Letan&iacute;a:</b> <em>' + item.letania + '</em><br />' +
-            '<br />' +
-            '<span>' + item.resumen + '</span>' +
-            '</div>';
+    drawView: function() {
+        var div = $('<div />');
+        var aside = $('<div style="float: right; width: 250px;" />').appendTo(div);
+
+        // requisito
+        this.drawRequirement().appendTo(aside);
+
+        // info
+
+        // clases
+        if (this.data.clases) {
+            var info = $('<div style="" class="pjs-infobox"/>').appendTo(aside);
+            $('<strong>Clases:</strong><ul>').appendTo(info);
+            for (var i in this.data.clases) {
+                var clase = this.data.clases[i];
+                var li = $('<li />')
+                    .addLinkTo('/personajes/c' + clase.id, clase.nombre)
+                    .append(' por <strong>' + (this.data.ph + clase.extraph) + 'PHs</strong>')
+                    .appendTo(info);
+            }
+            $('</ul>').appendTo(info);
+        }
+
+        // body
+        $(
+            '<div>' +
+            this.getEffects('float:right') +
+            this.getIcon() +
+            '<h2>' + this.data.nombre + '</h2>' +
+            '<span style="color: darkgray">' +
+            '<strong>Tipo:</strong> ' +
+            this.data.categoria + ', ' +
+            this.data.tipo +
+            '</span></div>' +
+            '</div>' +
+            '<div style="text-align: justify">' +
+            this.data.descripcion +
+            '</div>' +
+            this.getLetania() +
+            '<br/><br/>'
+        ).appendTo(div);
+
+        div.addLinkTo('/habilidades/listar/#0', "&lt; Lista de Habilidades");
+
+        return div;
     },
 
-    icon: function(item) {
-        return '<div class="pjs-icon icon-' + item.className + '" style="background-image:url(../static/images/hab/' + item.className + '.gif)" />'
+    drawRequirement: function() {
+        var div = $('<div style="text-align: right; margin: 0 0 10px 15px;">' +
+            '<strong>Requisito:</strong>' +
+            '</div>');
+
+        if (this.data.habilidad) {
+            var h = new $pjs.views.Habilidad(this.data.habilidad[0]);
+            return div.append(
+                h.drawItem({ style: 'float: none; width: 223px; cursor: pointer; margin: 0' })
+            );
+        } else {
+            return div.append(" Ninguno");
+        }
     }
 };
-/*
-< div id = "habilidad-tt"
-class = "tt" >
-    < div class = "head-tt" >
-    < img class = "imagen-tt"
-src = "estatico/img/spinner.gif" / >
-    < strong > < span class = "nombre-tt" > < /span></strong > < br / >
-    < em > < span class = "categoria-tt" > < /span></em > < br / >
-    < /div> < b > Tipo: < /b > < span class = "tipo-tt" > < /span > < br / >
-    < b > Letanía: < /b> <em><span class="letania-tt"></span > < /em><br/ >
-    < br / >
-    < span class = "resumen-tt" > < /span> < /div >
-*/
+
+/**
+ * pejotas 4.0.0
+ * @license ARV Klerix @ 2016 
+ * @author: Jordi Aguilar <klerix.com>
+ */
+
+$pjs.director.menuItems = [
+    { name: "Inicio", icon: 'ra ra-wooden-sign', route: '/' },
+    { name: "Listar Habilidades y Rasgos", icon: 'ra ra-spades-card', route: '/habilidades/listar/#0' },
+    { name: "Subir personaje", icon: 'ra ra-player-teleport', route: 'personajes/subir/' }
+];
+
+/**
+ * pejotas 4.0.0
+ * @license ARV Klerix @ 2016 
+ * @author: Jordi Aguilar <klerix.com>
+ */
+
+$pjs.views.Rasgo = function(data) {
+    this.data = data;
+
+    // calculate
+    this.data.className = $pjs.nameToClass(data.nombre);
+};
+
+$pjs.views.Rasgo.listar = function(items) {
+    var wrapper = $('<div class="pjs-wrapper" />');
+    $("<div style='float: left; margin: 0 10px; width: 80%;'><h3>Rasgos</h3></div>").appendTo(wrapper);
+
+    $.each(items, function(k, v) {
+        var item = new $pjs.views.Rasgo(v);
+        item.drawItem({ class: 'linkable' }).appendTo(wrapper);
+    });
+
+    return wrapper;
+};
+
+$pjs.views.Rasgo.prototype = {
+
+    drawIcon: function() {
+        return '<div ' +
+            'class="pjs-icon icon-' + this.data.className + '" ' +
+            'style="background-image:url(../static/images/rasgos/' + this.data.className + '.gif)" ' +
+            '/>'
+    },
+
+    drawTooltip: function($container) {
+        var content = '<div>' +
+            this.drawEffects('float: right') +
+            this.drawIcon() +
+            '<strong style="font-size: 12px; line-height: 24px">' + this.data.nombre + '</strong><br/>' +
+            '<strong>Tipo:</strong> <em>' + this.data.tipo + '</em><br />' +
+            this.getResumen(55) +
+            '</div>';
+
+        $container.jqxTooltip({ content: content, position: 'mouse', autoHide: false, width: "400px" });
+    },
+
+    drawEffects: function(style) {
+        return '<div class="pjs-effects" style="' + style + '">' + $pjs.views.translateEffects(this.data.efecto) + '</div>';
+    },
+
+    drawItem: function(options) {
+        options = options || {};
+        var div = $('<div class="pjs-box pjs-skill ' + options.class + '" />');
+
+        // Tipo
+        $('<div style="float: right; color: darkgray;">' + this.data.tipo + '</div>').appendTo(div);
+
+        // Icono
+        $(this.drawIcon()).appendTo(div);
+
+        // Name & desc
+        $('<div><strong>' + this.data.nombre + '</strong><br /><span>' + this.getResumen() + '</span></div>').appendTo(div);
+
+        // tooltip
+        this.drawTooltip(div);
+
+        // onclick
+        div.linkTo('/rasgos/mostrar/' + this.data.id);
+
+        return div;
+    },
+
+    drawView: function() {
+        var div = $('<div />');
+
+        // info
+        var info = $('<div style="float: right" class="pjs-infobox">' +
+            '<strong>Tipo:</strong> ' + this.data.tipo + '<br />' +
+            '</div>'
+        ).appendTo(div);
+
+
+        // clases
+        if (this.data.arquetipos) {
+            var wrap = $('<div/>').appendTo(info);
+            $('<hr/><br /><strong>Arquetipos:</strong><ul>').appendTo(wrap);
+            for (var i in this.data.arquetipos) {
+                var arquetipo = this.data.arquetipos[i];
+                var li = $('<li />')
+                    .addLinkTo('/personajes/a' + arquetipo.id, arquetipo.nombre)
+                    .appendTo(wrap);
+            }
+            $('</ul>').appendTo(wrap);
+        }
+
+        // body
+        $('<div>' +
+            this.drawEffects('float:right') +
+            this.drawIcon() +
+            '<h2>' + this.data.nombre + '</h2>' +
+            '</div>' +
+            '<div style="text-align: justify">' +
+            this.data.descripcion +
+            '</div>' +
+            '<br/><br/>'
+        ).appendTo(div);
+
+        div.addLinkTo('/habilidades/listar/#1', "&lt; Lista de Ragos");
+
+        return div;
+    },
+
+    getResumen: function() {
+        return this.data.descripcion.length > 55 ? this.data.descripcion.substring(0, 55) + '...' : this.data.descripcion;
+    }
+
+};
+
+/**
+ * pejotas 4.0.0
+ * @license ARV Klerix @ 2016 
+ * @author: Jordi Aguilar <klerix.com>
+ */
+
+$pjs.views.tabs = function(object, options) {
+
+    var tabs = $('<div class="pjs-tabs" />').appendTo($pjs.divs['body']);
+    var ul = $('<ul/>').appendTo(tabs);
+
+    for (var k in object) {
+        var content = object[k];
+        if (typeof content == "string") {
+            $('<div>' + content + '</div>').appendTo(tabs);
+        } else {
+            var div = $('<div />').appendTo(tabs);
+            content.appendTo(div);
+        }
+        $('<li>' + k + '</li>').appendTo(ul);
+    }
+
+    tabs.jqxTabs(options || {});
+
+    return tabs;
+};
+
+$pjs.views.translateDict = {
+    "nr": { "icon": "ra-diamond", "name": "Nivel de Recursos" },
+    "ns": { "icon": "ra-pyramids", "name": "Nivel de Suministros/Ciclo" },
+    "moral": { "icon": "ra-horn-call", "name": "Moral" },
+    "sanar": { "icon": "ra-health", "name": "Sanar" },
+    "bendicion": { "icon": "ra-health-increase", "name": "Bendici&oacute;n" },
+    "maldicion": { "icon": "ra-health-decrease", "name": "Maldición" },
+
+    "r:saber": { "icon": "ra-book", "name": "Rasgo: Saber" },
+    "r:comercio": { "icon": "ra-wooden-sign", "name": "Rasgo: Comercio" },
+    "r:alquimia": { "icon": "ra-potion", "name": "Rasgo: Alquimia" },
+    "r:herreria": { "icon": "ra-anvil", "name": "Rasgo: Herrer&iacute;a" },
+    "r:protector": { "icon": "ra-shield", "name": "Rasgo: Protector" },
+    "r:paz": { "icon": "ra-two-hearts", "name": "Rasgo: Aura de Paz" },
+    "r:lengua": { "icon": "ra-speech-bubbles", "name": "Rasgo: Lenguaje" },
+    "r:escribir": { "icon": "ra-quill-ink", "name": "Rasgo: Leer y Escribir" },
+    "r:adiccion": { "icon": "ra-beer", "name": "Rasgo: Adicci&oacute;n" },
+    "r:hurtar": { "icon": "ra-nuclear", "name": "Rasgo: Hurtar" },
+    "r:interrogar": { "icon": "ra-gears", "name": "Rasgo: Interrogar" },
+    "r:pacifista": { "icon": "ra-cancel", "name": "Rasgo: Pacifista" },
+
+    "a:ligera": { "icon": "ra-knight-helmet", "name": "Aptitud: Armadura Ligera" },
+    "a:pesada": { "icon": "ra-helmet", "name": "Aptitud: Armadura Pesada" },
+    "a:tunica": { "icon": "ra-vest", "name": "Aptitud: T&uacute;nica" },
+    "a:escudo": { "icon": " ra-round-shield", "name": "Aptitud: Escudo" },
+    "a:torre": { "icon": "ra-eye-shield", "name": "Aptitud: Escudo Torre" },
+
+
+    "a:desarmado": { "icon": "ra-hand", "name": "Adiestramiento: Combate Desarmado" },
+};
+
+$pjs.views.translateEffects = function(efectos) {
+    if (efectos) {
+        $.each($pjs.views.translateDict, function(k, v) {
+            efectos = efectos.replace(k, '<i title="' + v.name + '" class="ra ' + v.icon + '"></i>');
+        });
+
+        return efectos;
+
+    } else {
+
+        return "";
+    }
+
+};
+
+$pjs.views.link = function(href, text) {
+    return $('<a href="javascript:void(0, \'' + href + '\')">' + text + '</a>')
+        .linkTo(href);
+}
+
+$.fn.linkTo = function(href) {
+    return this.on('click', function(e) {
+        e.preventDefault();
+        switch (e.which) {
+            case 1: // left
+                $pjs.router.navigate(href);
+                break;
+            case 2: // middle
+                window.open($pjs.router.link(href), '_blank');
+                break;
+        }
+    });
+};
+
+
+$.fn.addLinkTo = function(href, text) {
+    return this.append($pjs.views.link(href, text));
+};
 
 /**
  * pejotas 4.0.0
@@ -382,186 +748,6 @@ src = "estatico/img/spinner.gif" / >
     };
 
 }(jQuery));
-
-/**
- * pejotas 4.0.0
- * @license ARV Klerix @ 2016 
- * @author: Jordi Aguilar <klerix.com>
- */
-
-/**
- * @license
- * YouboraLib Report
- * Copyright NicePopleAtWork <http://nicepeopleatwork.com/>
- */
-
-/**
- * $pjs.report will show all messages inferior to this level.
- * 0: no errors;
- * 1: errors;
- * 2: + warnings;
- * 3: + life-cycle logs;
- * 4: + debug messages;
- * 5: + expose HTTP requests;
- * You can specify youbora-debug="X" inside the &lt;script&gt; tag to force level.
- *
- * @default 2
- * @memberof $pjs
- * @see {@link $pjs.report}
- */
-$pjs.debugLevel = 2;
-
-$pjs.messageLevels = {
-    1: "e", // Error
-    2: "w", // Warning
-    3: "n", // Notice
-    4: "d", // Debug
-    5: "v" // Verbose
-}
-
-/**
- * If true, console outputs will always be outputed without colors (for debbugin in devices).
- * @default false
- * @memberof $pjs
- */
-$pjs.plainConsole = false;
-
-/**
- * Returns a console message
- *
- * @memberof $pjs
- * @private
- * @param {(string|object|array)} msg Message string, object or array of messages.
- * @param {number} [debugLevel=3] Defines the level of the error sent. Only errors with level lower than $pjs.debugLevel will be displayed.
- * @param {string} [color=darkcyan] Color of the header
- * @see {@link $pjs.debugLevel}
- */
-$pjs.report = function(msg, debugLevel, color) {
-    if (console && console.log) {
-        debugLevel = debugLevel || 4;
-        color = color || 'darkcyan';
-        var letter = $pjs.messageLevels[debugLevel];
-        var prefix = '[Youbora] ' + letter + ': ';
-
-        // If RemoteLog is available & enabled
-        if (typeof $pjs.remoteLog != "undefined" && $pjs.remoteLog.enabled === true) {
-            $pjs.remoteLog(prefix + msg);
-        }
-
-        // Show messages in actual console if level is enought
-        if ($pjs.debugLevel >= debugLevel) {
-
-            if ($pjs.plainConsole || document.documentMode) { //document.documentMode exits only in IE
-                // Plain log for IE and devices
-                $pjs.plainReport(msg, prefix);
-            } else {
-                // choose log method
-                var logMethod = console.log;
-                if (debugLevel == 1 && console.error) {
-                    logMethod = console.error;
-                } else if (debugLevel == 2 && console.warn) {
-                    logMethod = console.warn;
-                } else if (debugLevel >= 4 && console.debug) {
-                    logMethod = console.debug;
-                }
-
-                // print message
-                prefix = '%c' + prefix;
-                if (msg instanceof Array) {
-                    msg.splice(0, 0, prefix, 'color: ' + color);
-                    logMethod.apply(console, msg);
-                } else {
-                    logMethod.call(console, prefix, 'color: ' + color, msg);
-                }
-            }
-        }
-    }
-};
-
-
-/**
- * Returns a console message without style
- *
- * @memberof $pjs
- * @since  5.3
- * @private
- * @param {(string|object|array)} msg Message string, object or array of messages.
- */
-$pjs.plainReport = function(msg, prefix) {
-    if (msg instanceof Array) {
-        for (var m in msg) {
-            $pjs.plainReport(m);
-        }
-    } else {
-        if (typeof msg == 'string') {
-            console.log(prefix + msg);
-        } else {
-            console.log(prefix + '<next line>');
-            console.log(msg);
-        }
-    }
-};
-
-/**
- * Sends an error (level 1) console log.
- * Supports unlimited arguments: ("this", "is", "a", "message")
- * @memberof $pjs
- * @see {@link $pjs.report}
- */
-$pjs.error = function( /*...*/ ) {
-    $pjs.report([].slice.call(arguments), 1, 'darkred');
-};
-
-/**
- * Sends a warning (level 2) console log.
- * Supports unlimited arguments: ("this", "is", "a", "message")
- * @memberof $pjs
- * @see {@link $pjs.report}
- */
-$pjs.warn = function( /*...*/ ) {
-    $pjs.report([].slice.call(arguments), 2, 'darkorange');
-};
-
-/**
- * Sends a notice (level 3) console log.
- * Supports unlimited arguments: ("this", "is", "a", "message")
- * @memberof $pjs
- * @see {@link $pjs.report}
- */
-$pjs.notice = function( /*...*/ ) {
-    $pjs.report([].slice.call(arguments), 3, 'darkcyan');
-};
-
-/**
- * Sends a notice (level 3) console log.
- * Use this function to report service calls "/start", "/error"...
- * Supports unlimited arguments: ("this", "is", "a", "message")
- * @memberof $pjs
- * @see {@link $pjs.report}
- */
-$pjs.noticeRequest = function( /*...*/ ) {
-    $pjs.report([].slice.call(arguments), 3, 'darkgreen');
-};
-
-/**
- * Sends a debug message (level 4) to console.
- * Supports unlimited arguments: ("this", "is", "a", "message")
- * @memberof $pjs
- * @see {@link $pjs.report}
- */
-$pjs.debug = function( /*...*/ ) {
-    $pjs.report([].slice.call(arguments), 4, 'indigo');
-};
-
-/**
- * Sends a verbose message (level 5) to console.
- * Supports unlimited arguments: ("this", "is", "a", "message")
- * @memberof $pjs
- * @see {@link $pjs.report}
- */
-$pjs.verbose = function( /*...*/ ) {
-    $pjs.report([].slice.call(arguments), 5, 'navy');
-};
 
 /**
  * pejotas 4.0.0

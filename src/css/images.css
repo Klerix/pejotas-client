@@ -3,5 +3,10 @@
     margin-right: 5px;
     width: 24px;
     height: 24px;
-    background: #ddd url(../images/hab/default.gif);
+    background-image: url(../images/hab/default.gif);
+}
+
+.pjs-effects {
+    font-size: 14px;
+    color: #333;
 }

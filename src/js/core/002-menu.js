@@ -1,13 +1,19 @@
-$pjs.director.menuItems = [
-    { name: "Inicio", icon: 'fa-home', route: '/' },
-    { name: "Listar Habilidades", icon: 'fa-list', route: '/habilidades/lista' },
-    { name: "Subir personaje", icon: 'fa-cloud-upload', route: 'personajes/subir' }
-];
-
 $pjs.director._drawMenu = function() {
+
     $pjs.divs['menu-container'] = $('<div class="pjs-menu-container" />').appendTo($pjs.divs['main']);
     $pjs.divs['menu'] = $('<div class="pjs-menu" />').appendTo($pjs.divs['menu-container']);
-    $('<span>Pejotas <em>v' + $pjs.version + '</em></span>').appendTo($pjs.divs['menu']);
+    $(
+            '<span style="cursor: pointer;" title="Volver al inicio">' +
+            '<span class="pjs-header">' +
+            '<i class="ra ' + $pjs.director._rndLogo() + '" aria-hidden="true"></i> ' +
+            'Creador de Pejotas' +
+            '</span> ' +
+            '<em>v' + $pjs.version + '</em>' +
+            '</span>'
+
+        )
+        .linkTo('/')
+        .appendTo($pjs.divs['menu']);
 
     var $menu = $('<menu />').appendTo($pjs.divs['menu']);
     $('<span id="pjs-menu-selector"></span>').appendTo($menu);
@@ -19,7 +25,7 @@ $pjs.director._drawMenu = function() {
 
 $pjs.director._drawMenuItem = function($container, item) {
     var html = '<a title="' + item.name + '">' +
-        '<i class="fa ' + item.icon + '" aria-hidden="true"></i>' +
+        '<i class="' + item.icon + '" aria-hidden="true"></i>' +
         '</a>';
 
     $(html)
@@ -29,8 +35,22 @@ $pjs.director._drawMenuItem = function($container, item) {
         .on('mouseover', function(ev) {
             $('#pjs-menu-selector').text(this.title);
         })
-        .on('click', function(ev) {
-            $pjs.router.navigate(item.route);
-        })
+        .linkTo(item.route)
         .appendTo($container);
+};
+
+$pjs.director._rndLogo = function($container, item) {
+    var logoItems = [
+        "ra-player-thunder-struck",
+        "ra-player-pyromaniac",
+        "ra-falling",
+        "ra-muscle-fat",
+        "ra-hydra",
+        "ra-wolf-howl",
+        "ra-burning-meteor",
+        "ra-hood",
+        "ra-castle-emblem",
+        //"ra-angel-wings"
+    ];
+    return logoItems[Math.floor(Math.random() * logoItems.length)];
 };

@@ -27,9 +27,7 @@ $pjs.views.Eventos = {
         div.jqxTooltip({ content: desc, position: 'mouse' });
 
         // onclick
-        div.on("click", function() {
-            $pjs.router.navigate('/eventos/' + item.id + '/crearpj/')
-        });
+        div.linkTo('/personajes/e' + item.id);
 
         return div;
     }

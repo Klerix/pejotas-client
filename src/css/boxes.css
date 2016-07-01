@@ -11,11 +11,19 @@
     height: 0;
 }
 
+.linkable {
+    cursor: pointer;
+}
+
 .pjs-box {
     border: 1px solid black;
     margin: 5px;
     border-radius: 3px;
     overflow: hidden;
+}
+
+.pjs-box p {
+    margin: 0;
 }
 
 .pjs-box:hover {
@@ -34,9 +42,17 @@
     width: 393px;
     background: #FDFFFF;
     border: 1px solid black;
-    margin: 1px 3px;
+    margin: 1px 5px;
     padding: 5px;
     border-radius: 3px;
     float: left;
     font-size: 11px;
+}
+
+.pjs-infobox {
+    padding: 12px;
+    margin-left: 15px;
+    border-radius: 2px;
+    background-color: #FDFFFF;
+    border: 1px solid #e1e1e8;
 }

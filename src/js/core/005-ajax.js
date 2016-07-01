@@ -1,6 +1,6 @@
 $pjs.ajax = function(service, cb) {
     var request = $.ajax({
-        url: $pjs.config.server + service,
+        url: $pjs.server + service,
         dateType: "json"
     });
 
