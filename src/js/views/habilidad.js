@@ -43,16 +43,21 @@ $pjs.views.Habilidad.prototype = {
 
     getTooltip: function() {
         return '<div>' +
-            this.getEffects('float: right', false) +
-            this.getIcon() +
+            //this.getEffects('float: right', false) +
+            //this.getIcon() +
+
             '<strong>' + this.data.nombre + '</strong><br />' +
-            '<em>' +
-            this.data.categoria + ', ' +
-            this.data.tipo +
-            '</em><br />' +
-            this.getResumen(200) +
+            //'<em>' +
+            //this.data.categoria + ', ' +
+            //this.data.tipo +
+            //'</em><br />' +
+            this.getResumen(300) +
             this.getLetania() +
             '</div>';
+    },
+
+    getLink: function() {
+
     },
 
     getResumen: function(max) {
@@ -81,7 +86,7 @@ $pjs.views.Habilidad.prototype = {
         ).appendTo(div);
 
         // tooltip
-        div.jqxTooltip({ content: this.getTooltip(), position: 'mouse', width: "400px" });
+        div.jqxTooltip({ content: this.getTooltip(), position: 'bottom', showArrow: false, width: "405px" });
 
         // onclick
         var context = this;

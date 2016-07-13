@@ -9,6 +9,9 @@ $pjs.director = {
         // Draw body
         $pjs.director._drawBody();
 
+        // Draw footer
+        $pjs.director._drawFooter();
+
         // Draw loader
         $pjs.spinner._draw();
 

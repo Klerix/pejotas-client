@@ -19,46 +19,60 @@ $pjs.views.Rasgo.listar = function(items) {
 
 $pjs.views.Rasgo.prototype = {
 
-    drawIcon: function() {
+    getIcon: function() {
         return '<div ' +
             'class="pjs-icon icon-' + this.data.className + '" ' +
             'style="background-image:url(../static/images/rasgos/' + this.data.className + '.gif)" ' +
             '/>'
     },
 
-    drawTooltip: function($container) {
-        var content = '<div>' +
-            this.drawEffects('float: right') +
-            this.drawIcon() +
-            '<strong style="font-size: 12px; line-height: 24px">' + this.data.nombre + '</strong><br/>' +
-            '<strong>Tipo:</strong> <em>' + this.data.tipo + '</em><br />' +
-            this.getResumen(55) +
+    getTooltip: function($container) {
+        return '<div>' +
+            //this.getEffects('float: right', false) +
+            //this.getIcon() +
+            '<strong>' + this.data.nombre + '</strong><br />' +
+            //'<em>' +
+            //this.data.categoria + ', ' +
+            //this.data.tipo +
+            //'</em><br />' +
+            this.getResumen(300) +
             '</div>';
-
-        $container.jqxTooltip({ content: content, position: 'mouse', autoHide: false, width: "400px" });
     },
 
-    drawEffects: function(style) {
+    getEffects: function(style) {
         return '<div class="pjs-effects" style="' + style + '">' + $pjs.views.translateEffects(this.data.efecto) + '</div>';
+    },
+
+    getResumen: function(max) {
+        max = max || 55;
+        return this.data.descripcion.length > max ? this.data.descripcion.substring(0, max) + '...' : this.data.descripcion;
     },
 
     drawItem: function(options) {
         options = options || {};
-        var div = $('<div class="pjs-box pjs-skill ' + options.class + '" />');
+        var div = $('<div class="pjs-box pjs-skill ' + options.class + '" style="' + options.style + '" />');
 
         // Tipo
-        $('<div style="float: right; color: darkgray;">' + this.data.tipo + '</div>').appendTo(div);
+        $(this.getEffects('float: right', false)).appendTo(div);
 
         // Icono
-        $(this.drawIcon()).appendTo(div);
+        $(this.getIcon()).appendTo(div);
 
         // Name & desc
-        $('<div><strong>' + this.data.nombre + '</strong><br /><span>' + this.getResumen() + '</span></div>').appendTo(div);
+        $('<div><strong>' +
+            this.data.nombre +
+            '</strong><br />' +
+            '<span style="color: darkgray">' +
+            //this.data.categoria + ', ' +
+            this.data.tipo +
+            '</span></div>'
+        ).appendTo(div);
 
         // tooltip
-        this.drawTooltip(div);
+        div.jqxTooltip({ content: this.getTooltip(), position: 'bottom', showArrow: false, width: "405px" });
 
         // onclick
+        var context = this;
         div.linkTo('/rasgos/mostrar/' + this.data.id);
 
         return div;
@@ -88,10 +102,16 @@ $pjs.views.Rasgo.prototype = {
         }
 
         // body
-        $('<div>' +
-            this.drawEffects('float:right') +
-            this.drawIcon() +
+        $(
+            '<div>' +
+            this.getEffects('float:right') +
+            this.getIcon() +
             '<h2>' + this.data.nombre + '</h2>' +
+            '<span style="color: darkgray">' +
+            '<strong>Tipo:</strong> ' +
+            //this.data.categoria + ', ' +
+            this.data.tipo +
+            '</span></div>' +
             '</div>' +
             '<div style="text-align: justify">' +
             this.data.descripcion +
@@ -103,9 +123,4 @@ $pjs.views.Rasgo.prototype = {
 
         return div;
     },
-
-    getResumen: function() {
-        return this.data.descripcion.length > 55 ? this.data.descripcion.substring(0, 55) + '...' : this.data.descripcion;
-    }
-
 };

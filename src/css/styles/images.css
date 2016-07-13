@@ -1,0 +1,16 @@
+.pjs-icon {
+    float: left;
+    margin-right: 5px;
+    width: 24px;
+    height: 24px;
+    background-image: url(../images/hab/default.gif);
+}
+
+.pjs-effects {
+    font-size: 10px;
+    color: #333;
+}
+
+.pjs-effects .ra {
+    font-size: 15px;
+}

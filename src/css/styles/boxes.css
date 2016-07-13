@@ -1,0 +1,59 @@
+.pjs-wrapper {
+    min-height: 100px;
+}
+
+.pjs-wrapper:after {
+    visibility: hidden;
+    display: block;
+    font-size: 0;
+    content: " ";
+    clear: both;
+    height: 0;
+}
+
+.linkable {
+    cursor: pointer;
+}
+
+.pjs-box {
+    border: 1px solid black;
+    margin: 5px;
+    border-radius: 3px;
+    overflow: hidden;
+    text-align: left;
+}
+
+.pjs-box p {
+    margin: 0;
+}
+
+.pjs-box:hover {
+    background-color: aliceblue;
+}
+
+.pjs-evento {
+    width: 400px;
+    height: 100px;
+    float: left;
+    cursor: pointer;
+}
+
+.pjs-skill {
+    height: 25px;
+    width: 393px;
+    background: #FDFFFF;
+    border: 1px solid black;
+    margin: 1px 5px;
+    padding: 5px;
+    border-radius: 3px;
+    float: left;
+    font-size: 11px;
+}
+
+.pjs-infobox {
+    padding: 12px;
+    margin-left: 15px;
+    border-radius: 2px;
+    background-color: #FDFFFF;
+    border: 1px solid #e1e1e8;
+}
