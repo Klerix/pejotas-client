@@ -6,7 +6,8 @@ var plugins = require('gulp-load-plugins')()
 var config = require('./gulp/config')
 
 // Import gulp tasks
-var taskBrowserify = require('./gulp/tasks/browserify')
+var taskBrowserifySrc = require('./gulp/tasks/browserify-src')
+var taskBrowserifyVendors = require('./gulp/tasks/browserify-vendors')
 var taskClean = require('./gulp/tasks/clean')
 var taskCopyFonts = require('./gulp/tasks/copy-fonts')
 var taskCopyHtml = require('./gulp/tasks/copy-html')
@@ -24,7 +25,8 @@ gulp.task('copy:fonts', wrapTask(taskCopyFonts))
 gulp.task('copy:html', wrapTask(taskCopyHtml))
 gulp.task('copy:images', wrapTask(taskCopyImages))
 gulp.task('copy:css', wrapTask(taskCopyCss))
-gulp.task('browserify', wrapTask(taskBrowserify))
+gulp.task('browserify:src', wrapTask(taskBrowserifySrc))
+gulp.task('browserify:vendors', wrapTask(taskBrowserifyVendors))
 gulp.task('css', wrapTask(taskCss))
 
 gulp.task('default', [
@@ -33,6 +35,7 @@ gulp.task('default', [
     'copy:images',
     'copy:html',
     'copy:css',
-    'browserify',
+    'browserify:vendors',
+    'browserify:src',
     'css',
 ])

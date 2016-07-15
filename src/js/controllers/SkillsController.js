@@ -1,5 +1,5 @@
-$.extend($pjs.controllers, {
-    '/habilidades/listar': function(params) {
+var EventsController = {
+    list: function(params) {
         $pjs.spinner.show();
 
         $pjs.ajax('habilidades', function(habs) {
@@ -24,7 +24,7 @@ $.extend($pjs.controllers, {
             });
         });
     },
-    '/habilidades/mostrar/:id': function(params) {
+    show: function(params) {
         $pjs.spinner.show();
 
         $pjs.ajax('habilidades/' + params.id, function(resp) {
@@ -36,4 +36,6 @@ $.extend($pjs.controllers, {
             $pjs.spinner.hide();
         });
     }
-});
+};
+
+module.exports = EventsController;

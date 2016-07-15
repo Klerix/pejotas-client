@@ -1,9 +1,9 @@
-.pjs-footer-container {
+.pjs__foot-container {
     margin: 0;
     padding: 0;
 }
 
-.pjs-footer {
+.pjs__foot {
     margin: 10px auto 25px auto;
     width: 840px;
     padding: 5px;

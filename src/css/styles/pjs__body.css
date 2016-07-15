@@ -1,9 +1,9 @@
-.pjs-body-container {
+.pjs__body-container {
     margin: 0;
     padding: 0;
 }
 
-.pjs-body {
+.pjs__body {
     margin: 0 auto;
     width: 840px;
     padding: 5px;
@@ -11,6 +11,6 @@
     box-sizing: border-box;
 }
 
-.pjs-body:after {
+.pjs__body:after {
     clear: both;
 }

@@ -1,18 +1,20 @@
-var PersonajesController = require('./controllers/CharsController'),
-    EventosController = require('./controllers/EventsController'),
-    HabilidadesController = require('./controllers/SkillsController'),
-    RasgosController = require('./controllers/TraitsController');
+var EventsController = require('./controllers/EventsController'),
+    SkillsController = require('./controllers/SkillsController'),
+    TraitsController = require('./controllers/TraitsController'),
+    CharsController = require('./controllers/CharsController');
 
 var Router = Backbone.Router.extend({
-
     routes: {
-        '': EventosController.list,
-        'eventos(/)': EventosController.list,
-        'habilidades(/)': HabilidadesController.list,
-        'habilidades/:id': HabilidadesController.show,
-        'rasgos/:id': RasgosController.show,
-    }
+        '': EventsController.list,
+        'eventos(/)': EventsController.list,
+        'habs(/)': SkillsController.list,
+        'habs/:id(/)': SkillsController.show,
+        'rasgos(/)': TraitsController.list,
+        'rasgos/:id(/)': TraitsController.show,
+        'pj/:code(/)': CharsController.compose,
+    },
 
-})
 
-module.exports = Router
+});
+
+module.exports = Router;

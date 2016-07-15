@@ -8,14 +8,13 @@ var buffer = require('vinyl-buffer')
 
 module.exports = function(gulp, plugins, config) {
 
-    var entryFile = 'main.js'
-    var entryPath = config.paths.src.js + '/' + entryFile
+    var entryFile = 'vendor.js'
+    var entryPath = config.paths.src.root + '/' + entryFile
 
     function createBundler() {
         var bundler = browserify({
             entries: entryPath,
-            debug: !!config.development,
-            transform: [hbsfy]
+            debug: config.development,
         })
 
         if (config.watch) {
@@ -36,11 +35,11 @@ module.exports = function(gulp, plugins, config) {
     }
 
     function doneHandler() {
-        log('browserify', 'Done!', 'green')
+        log('browserify', 'Vendors Done!', 'green')
     }
 
     function rebundle() {
-        log('browserify', 'Browserifying...', 'yellow')
+        log('browserify', 'Browserifying Vendors...', 'yellow')
 
         return bundler.bundle()
             .on('error', errorHandler)
@@ -48,7 +47,7 @@ module.exports = function(gulp, plugins, config) {
             .pipe(buffer())
             .pipe(plugins.if(config.development, plugins.sourcemaps.init({ loadMaps: true })))
             .pipe(plugins.uglify())
-            .pipe(rename("app.min.js"))
+            .pipe(rename("vendor-libs.min.js"))
             .pipe(plugins.if(config.development, plugins.sourcemaps.write('./')))
             .pipe(gulp.dest(config.paths.dist.js))
             .on('end', doneHandler)
@@ -59,6 +58,8 @@ module.exports = function(gulp, plugins, config) {
     if (config.watch) {
         bundler.on('update', rebundle)
     }
+
+    bundler.on('log', plugins.util.log);
 
     return rebundle()
 

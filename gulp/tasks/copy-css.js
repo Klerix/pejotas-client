@@ -1,7 +1,8 @@
 module.exports = function(gulp, plugins, config) {
 
     var glob = [
-        config.paths.src.css + '/vendor/*.css'
+        config.paths.src.css + '/vendor/*.css',
+        'node_modules/bootstrap/dist/css/bootstrap.min.css'
     ]
 
     if (config.watch) {

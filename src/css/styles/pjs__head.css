@@ -1,4 +1,4 @@
-.pjs-menu-container {
+.pjs__head-container {
     margin: 0;
     position: relative;
     top: 0;
@@ -10,62 +10,57 @@
     border-bottom: 3px solid rgb(38, 42, 55);
 }
 
-.pjs-menu {
+.pjs__head {
     width: 840px;
     margin: 0 auto;
     box-sizing: border-box;
 }
 
-.pjs-menu span {
-    padding: 2px 5px;
-}
-
-.pjs-header {
+.pjs-head__brand {
     font-size: 20px;
     font-family: fantasy;
 }
 
-.pjs-menu em {
+.pjs-head__brand small {
     color: rgb(200, 200, 200);
-    font-size: 10px;
+    font-size: 12px;
 }
 
-.pjs-menu i {
-    /*font RPG awesome*/
-    font-size: 22px;
+.pjs-head__brand i {
+    font-size: 27px;
 }
 
-.pjs-header i {
-    font-size: 27px !important;
-}
-
-.pjs-menu menu {
+.pjs-head__menu {
     float: right;
     padding: 0;
     margin: 0;
     box-sizing: border-box;
 }
 
-.pjs-menu menu span {
+.pjs-head__menu i {
+    font-size: 27px !important;
+}
+
+.pjs-head__menu span {
     color: rgb(200, 200, 200);
     font-size: 14px;
 }
 
-.pjs-menu a {
+.pjs-head__menu a {
     cursor: pointer;
     margin: 2px 5px;
     display: inline-block;
 }
 
-.pjs-menu a:hover {
+.pjs-head__menu a:hover {
     color: #FF9933;
 }
 
-.pjs-menu a summary {
+.pjs-head__menu a summary {
     display: none;
     font-size: 14px;
 }
 
-.pjs-menu a:hover summary {
+.pjs-head__menu a:hover summary {
     display: inline;
 }

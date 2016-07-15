@@ -1,0 +1,5 @@
+ // Wrapper var div = $('
+<div class="pjs-box pjs-evento" />'); // Desc + TT var desc = '
+<h3>' + item.nombre + '</h3>
+<p>' + item.descripcion + '</p>'; // Logo or Body if (item.custom_logo) { div.css("background", "url(" + item.custom_logo + ") no-repeat"); } else { div.html('
+<div style="padding: 5px">' + desc + '</div>'); } // tooltip div.jqxTooltip({ content: desc, position: 'mouse' }); // onclick div.linkTo('/personajes/e' + item.id); return div;

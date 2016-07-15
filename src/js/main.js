@@ -1,10 +1,27 @@
-require('./vendor');
-require('./jquery');
-
+var package = require('../../package.json');
 var Router = require('./router');
-var ApplicationRouter = new Router();
 
-Backbone.history.start({
-    pushState: true,
-    root: '/eventos'
-});
+// Create namespace
+window.$pjs = window.$pjs || {
+
+    VERSION: package.version,
+
+    server: 'http://localhost:8080/',
+
+    router: new Router(),
+
+};
+
+// Extend $pjs
+_.extend($pjs, require('./controllers/MainController'));
+require('./views/HbsHelpers');
+
+
+// extend jquery
+$.fn.extend({
+    pejotas: function() {
+        return $pjs.init(this);
+    }
+})
+
+module.exports = window.$pjs;

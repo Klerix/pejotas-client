@@ -1,5 +1,13 @@
-$.extend($pjs.controllers, {
-    '/eventos': function(params) {
+var EventModel = require('../models/EventModel');
+var EventsCollection = require('../collections/EventsCollection');
+var EventListView = require('../views/event/EventListView');
+
+module.exports = {
+    list: function() {
+        $pjs.render(EventListView, EventsCollection);
+
+
+        /*
         $pjs.spinner.show();
 
         $pjs.ajax('eventos', function(resp) {
@@ -13,6 +21,6 @@ $.extend($pjs.controllers, {
                 .appendTo($pjs.divs['body']);
 
             $pjs.spinner.hide();
-        });
+        });*/
     }
-});
+};

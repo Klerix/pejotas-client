@@ -1,5 +1,30 @@
-var TraitsController = Backbone.Controller.extend($pjs.controllers, {
-    '/rasgos/mostrar/:id': function(params) {
+var TraitsController = {
+    list: function(params) {
+        $pjs.spinner.show();
+
+        $pjs.ajax('habilidades', function(habs) {
+            $pjs.ajax('rasgos', function(rasgos) {
+                $pjs.divs['body'].empty();
+
+                var div = $('<div class="lista" />').appendTo($pjs.divs['body']);
+
+                var options = {};
+                if (location.hash) options.selectedItem = location.hash[1];
+
+                $pjs.views.tabs({
+                    "Habilidades": $pjs.views.Habilidad.listar(habs),
+                    "Rasgos": $pjs.views.Rasgo.listar(rasgos),
+                }, options).on('selected', function(event) {
+                    $pjs.router.pause(true);
+                    window.location.hash = event.args.item;
+                    $pjs.router.pause(false);
+                }).appendTo(div);
+
+                $pjs.spinner.hide();
+            });
+        });
+    },
+    show: function(params) {
         $pjs.spinner.show();
 
         $pjs.ajax('rasgos/' + params.id, function(resp) {
@@ -11,6 +36,6 @@ var TraitsController = Backbone.Controller.extend($pjs.controllers, {
             $pjs.spinner.hide();
         });
     }
-});
+};
 
 module.exports = TraitsController;
