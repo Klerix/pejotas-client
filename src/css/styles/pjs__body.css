@@ -11,6 +11,10 @@
     box-sizing: border-box;
 }
 
-.pjs__body:after {
-    clear: both;
+.pjs__body h2 {
+    font-size: 18px;
+}
+
+.pjs__body h2::before {
+    content: "// ";
 }

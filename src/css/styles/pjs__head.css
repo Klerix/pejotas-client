@@ -46,21 +46,21 @@
     font-size: 14px;
 }
 
-.pjs-head__menu a {
+.pjs-head__menu menuitem {
     cursor: pointer;
     margin: 2px 5px;
     display: inline-block;
 }
 
-.pjs-head__menu a:hover {
+.pjs-head__menu menuitem:hover {
     color: #FF9933;
 }
 
-.pjs-head__menu a summary {
+.pjs-head__menu menuitem summary {
     display: none;
     font-size: 14px;
 }
 
-.pjs-head__menu a:hover summary {
+.pjs-head__menu menuitem:hover summary {
     display: inline;
 }

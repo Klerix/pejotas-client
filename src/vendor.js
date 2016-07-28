@@ -5,12 +5,15 @@ $.ajaxSetup({ cache: false });
 // Lo-dash
 window._ = require('lodash');
 
+// Tether
+window.Tether = require('tether');
+
 // Backbone
 window.Backbone = require('backbone');
 Backbone.$ = $
 
-// Tether
-window.Tether = require('tether');
+// Marionette
+window.Marionette = require('backbone.marionette')
 
 // Bootstrap
 require('bootstrap/dist/js/bootstrap')

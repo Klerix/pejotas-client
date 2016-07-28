@@ -1,4 +1,5 @@
 require('es6-promise').polyfill();
+require('events').EventEmitter.prototype._maxListeners = 100;
 
 var gulp = require('gulp')
 

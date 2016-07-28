@@ -2,25 +2,24 @@ var EventModel = require('../models/EventModel');
 var EventsCollection = require('../collections/EventsCollection');
 var EventListView = require('../views/event/EventListView');
 
-module.exports = {
-    list: function() {
-        $pjs.render(EventListView, EventsCollection);
+module.exports = Marionette.AppRouter.extend({
+    appRoutes: {
+        '': "list",
+        'eventos(/)': "list",
+    },
 
+    controller: {
+        list: function() {
+            console.log('EventsController::list');
 
-        /*
-        $pjs.spinner.show();
+            var col = new EventsCollection();
+            $.when(col.fetch()).then(function() {
+                var view = new EventListView({ collection: col });
+                $pjs.show(view);
+            });
 
-        $pjs.ajax('eventos', function(resp) {
-            $pjs.divs['body']
-                .empty();
-
-            $("<h2>Eventos</h2>")
-                .appendTo($pjs.divs['body']);
-
-            $pjs.views.Eventos.list(resp)
-                .appendTo($pjs.divs['body']);
-
-            $pjs.spinner.hide();
-        });*/
+        }
     }
-};
+
+
+});

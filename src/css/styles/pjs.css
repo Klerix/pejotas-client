@@ -1,3 +1,12 @@
 .pjs {
     font-family: verdana;
 }
+
+.pjs h1,
+.pjs h2,
+.pjs h3,
+.pjs h4,
+.pjs h5,
+.pjs h6 {
+    font-family: fantasy;
+}
