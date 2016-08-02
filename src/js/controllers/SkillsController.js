@@ -1,41 +1,33 @@
-var EventsController = {
-    list: function(params) {
-        $pjs.spinner.show();
+var SkillModel = require('../models/SkillModel');
+var SkillCollection = require('../collections/SkillCollection');
+var SkillListView = require('../views/skill/SkillListView');
+var SkillSingleView = require('../views/skill/SkillSingleView');
 
-        $pjs.ajax('habilidades', function(habs) {
-            $pjs.ajax('rasgos', function(rasgos) {
-                $pjs.divs['body'].empty();
+module.exports = Marionette.AppRouter.extend({
 
-                var div = $('<div class="lista" />').appendTo($pjs.divs['body']);
-
-                var options = {};
-                if (location.hash) options.selectedItem = location.hash[1];
-
-                $pjs.views.tabs({
-                    "Habilidades": $pjs.views.Habilidad.listar(habs),
-                    "Rasgos": $pjs.views.Rasgo.listar(rasgos),
-                }, options).on('selected', function(event) {
-                    $pjs.router.pause(true);
-                    window.location.hash = event.args.item;
-                    $pjs.router.pause(false);
-                }).appendTo(div);
-
-                $pjs.spinner.hide();
-            });
-        });
+    appRoutes: {
+        'skills(/)': 'list',
+        'skills/:id(/)': 'show',
     },
-    show: function(params) {
-        $pjs.spinner.show();
+    controller: {
+        list: function() {
+            console.log('SkillsController::list');
 
-        $pjs.ajax('habilidades/' + params.id, function(resp) {
-            $pjs.divs['body'].empty();
+            var col = new SkillCollection();
+            $.when(col.fetch()).then(function() {
+                var view = new SkillListView({ collection: col });
+                $pjs.show(view);
+            });
+        },
 
-            var item = new $pjs.views.Habilidad(resp);
-            item.drawView().appendTo($pjs.divs['body']);
+        show: function(id) {
+            console.log('SkillsController::show');
 
-            $pjs.spinner.hide();
-        });
+            var model = new SkillModel({ id: id });
+            $.when(model.fetch()).then(function() {
+                var view = new SkillSingleView({ model: model });
+                $pjs.show(view);
+            });
+        }
     }
-};
-
-module.exports = EventsController;
+});

@@ -48,7 +48,7 @@ module.exports = function(gulp, plugins, config) {
             .pipe(source(entryFile))
             .pipe(buffer())
             .pipe(plugins.if(config.development, plugins.sourcemaps.init({ loadMaps: true })))
-            .pipe(plugins.uglify())
+            .pipe(plugins.uglify({ output: { ascii_only: true } }))
             .pipe(rename("pejotas.min.js"))
             .pipe(plugins.if(config.development, plugins.sourcemaps.write('./')))
             .pipe(gulp.dest(config.paths.dist.js))

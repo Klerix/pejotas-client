@@ -1,5 +1,15 @@
-var CharsController = {
-    compose: function() {}
-};
+module.exports = Marionette.AppRouter.extend({
 
-module.exports = CharsController;
+    appRoutes: {
+        'char/:code(/)': 'compose',
+        'char/load(/)': 'load',
+    },
+    controller: {
+        compose: function() {
+            console.log("CharsController::compose")
+        },
+        load: function() {
+            console.log("CharsController::load")
+        }
+    }
+});

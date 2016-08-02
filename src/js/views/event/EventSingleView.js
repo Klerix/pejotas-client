@@ -1,5 +1,3 @@
-var BaseView = require('../BaseView');
-
-module.exports = BaseView.extend({
+module.exports = Marionette.View.extend({
     template: require('./templates/single.hbs'),
 });

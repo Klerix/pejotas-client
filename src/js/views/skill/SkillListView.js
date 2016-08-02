@@ -1,4 +1,4 @@
-var EventItemView = require('./EventItemView');
+var SkillItemView = require('./SkillItemView');
 
 module.exports = Marionette.View.extend({
     template: require('./templates/list.hbs'),
@@ -8,7 +8,7 @@ module.exports = Marionette.View.extend({
     },
 
     onRender: function() {
-        var view = new EventItemView({ collection: this.collection });
+        var view = new SkillItemView({ collection: this.collection });
         this.showChildView("wrapper", view);
     }
 });

@@ -2,6 +2,7 @@ var browserify = require('browserify')
 var hbsfy = require('hbsfy')
 var watchify = require('watchify')
 var rename = require('gulp-rename')
+var aliasify = require('aliasify');
 
 var source = require('vinyl-source-stream')
 var buffer = require('vinyl-buffer')
@@ -15,6 +16,7 @@ module.exports = function(gulp, plugins, config) {
         var bundler = browserify({
             entries: entryPath,
             debug: config.development,
+            transform: ['aliasify']
         })
 
         if (config.watch) {
@@ -41,7 +43,8 @@ module.exports = function(gulp, plugins, config) {
     function rebundle() {
         log('browserify', 'Browserifying Vendors...', 'yellow')
 
-        return bundler.bundle()
+        return bundler
+            .bundle()
             .on('error', errorHandler)
             .pipe(source(entryFile))
             .pipe(buffer())

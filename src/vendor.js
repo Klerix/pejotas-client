@@ -20,3 +20,6 @@ require('bootstrap/dist/js/bootstrap')
 
 // Handlebars
 window.Handlebars = require('handlebars');
+
+// slugify
+window.slugify = require('url-slug');

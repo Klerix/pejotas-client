@@ -1,41 +1,33 @@
-var TraitsController = {
-    list: function(params) {
-        $pjs.spinner.show();
+var TraitModel = require('../models/TraitModel');
+var TraitCollection = require('../collections/TraitCollection');
+var SkillListView = require('../views/skill/SkillListView');
+var SkillSingleView = require('../views/skill/SkillSingleView');
 
-        $pjs.ajax('habilidades', function(habs) {
-            $pjs.ajax('rasgos', function(rasgos) {
-                $pjs.divs['body'].empty();
+module.exports = Marionette.AppRouter.extend({
 
-                var div = $('<div class="lista" />').appendTo($pjs.divs['body']);
-
-                var options = {};
-                if (location.hash) options.selectedItem = location.hash[1];
-
-                $pjs.views.tabs({
-                    "Habilidades": $pjs.views.Habilidad.listar(habs),
-                    "Rasgos": $pjs.views.Rasgo.listar(rasgos),
-                }, options).on('selected', function(event) {
-                    $pjs.router.pause(true);
-                    window.location.hash = event.args.item;
-                    $pjs.router.pause(false);
-                }).appendTo(div);
-
-                $pjs.spinner.hide();
-            });
-        });
+    appRoutes: {
+        'traits(/)': 'list',
+        'traits/:id(/)': 'show',
     },
-    show: function(params) {
-        $pjs.spinner.show();
+    controller: {
+        list: function() {
+            console.log('TraitsController::list');
 
-        $pjs.ajax('rasgos/' + params.id, function(resp) {
-            $pjs.divs['body'].empty();
+            var col = new TraitCollection();
+            $.when(col.fetch()).then(function() {
+                var view = new SkillListView({ collection: col });
+                $pjs.show(view);
+            });
+        },
 
-            var item = new $pjs.views.Rasgo(resp);
-            item.drawView().appendTo($pjs.divs['body']);
+        show: function(id) {
+            console.log('TraitsController::show');
 
-            $pjs.spinner.hide();
-        });
+            var model = new TraitModel({ id: id });
+            $.when(model.fetch()).then(function() {
+                var view = new SkillSingleView({ model: model });
+                $pjs.show(view);
+            });
+        }
     }
-};
-
-module.exports = TraitsController;
+});

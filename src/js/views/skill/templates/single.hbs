@@ -1,0 +1,43 @@
+<div style="float: right; width: 250px;">
+	<div class="skill__requirement" style="margin: 0 0 10px 15px;">
+		{{#each skill}}
+		    <strong>Requisito:</strong>
+		    {{> skill-box style="float: none; width: 235px; cursor: pointer; margin: 0"}}
+	    {{else}}
+	    	<strong>Requisito:</strong> Ninguno.
+	    {{/each}}
+	</div>
+
+	<div style="" class="pjs-infobox">
+			<strong>Disponible para:</strong>
+			<ul style="padding-left: 20px; margin: 0;">
+			{{#each classes}}
+				<li><a href="#chars/c{{id}}">{{name}}</a> por <strong>{{math ../cost "+" extracost}}PHs</strong>.</li>
+			{{/each}}
+			{{#each archetypes}}
+				<li><a href="#chars/a{{id}}">{{name}}</a></li>
+			{{/each}}
+			</ul>
+	</div>
+</div>
+<div>
+	{{> effects float="right" effects=effect}}
+    {{> skill-icon}}
+
+	<h2>{{name}}</h2>
+	<span style="color: darkgray">
+		<strong>Tipo:</strong>
+		{{#if category}}{{category}}, {{/if}}{{type}}
+	</span>
+	</div>
+</div>
+
+<div class="pjs__description">
+	{{{description}}}
+</div>
+
+{{> skill-letany}}
+
+<br/><br/>
+
+<a class="linkable link-back">&lt; Volver a la Lista</a>

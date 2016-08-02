@@ -1,7 +1,6 @@
-<div class="pjs-box pjs-evento" {{#if custom_logo}} style="background:url({{custom_logo}}) no-repeat" {{/if}}>
+<div class="pjs-box pjs-evento" title="{{name}}" {{#if custom_logo}} style="background:url({{custom_logo}}) no-repeat" {{/if}}>
     {{#unless custom_logo}}
         <h3>{{name}}</h3>
         <p>{{description}}</p>
     {{/unless}}
-    <!--<div style="padding: 5px;">Tooltip: {{description}}</div>-->
 </div>

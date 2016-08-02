@@ -1,16 +1,6 @@
-$pjs.views.translateDict = {
+var dict = {
     "r:saber": { "icon": "ra-book", "name": "Rasgo: Saber" },
-    "r:comercio": { "icon": "ra-wooden-sign", "name": "Rasgo: Comercio" },
-    "r:alquimia": { "icon": "ra-potion", "name": "Rasgo: Alquimia" },
-    "r:herreria": { "icon": "ra-forging", "name": "Rasgo: Herrer&iacute;a" },
-    "r:protector": { "icon": "ra-shield", "name": "Rasgo: Protector" },
-    "r:paz": { "icon": "ra-two-hearts", "name": "Rasgo: Aura de Paz" },
     "r:lengua": { "icon": "ra-speech-bubbles", "name": "Rasgo: Lenguaje" },
-    "r:escribir": { "icon": "ra-quill-ink", "name": "Rasgo: Leer y Escribir" },
-    "r:adiccion": { "icon": "ra-beer", "name": "Rasgo: Adicci&oacute;n" },
-    "r:hurtar": { "icon": "ra-nuclear", "name": "Rasgo: Hurtar" },
-    "r:interrogar": { "icon": "ra-gears", "name": "Rasgo: Interrogar" },
-    "r:pacifista": { "icon": "ra-cancel", "name": "Rasgo: Pacifista" },
 
     "a:ligera": { "icon": "ra-knight-helmet", "name": "Aptitud: Armadura Ligera" },
     "a:pesada": { "icon": "ra-helmet", "name": "Aptitud: Armadura Pesada" },
@@ -34,14 +24,19 @@ $pjs.views.translateDict = {
     "a:secundaria": { "icon": "ra-crossed-swords", "name": "Adiestramiento: Arma Secundaria" },
     "a:divina": { "icon": "ra-flaming-trident", "name": "Adiestramiento: Arma Divina" },
 
-    "NR": { "icon": "ra-diamond", "name": "Nivel de Recursos" },
-    "NS": { "icon": "ra-pyramids", "name": "Nivel de Suministros/Ciclo" },
+    "NR": { "icon": "ra-sapphire", "name": "Nivel de Riqueza" },
+    "NS": { "icon": "ra-mining-diamonds", "name": "Nivel de Suministros/Ciclo" },
 
     "moral": { "icon": "ra-horn-call", "name": "Afecta a la moral" },
     "miedo": { "icon": "ra-skull", "name": "Causa miedo" },
 
     "sanar": { "icon": "ra-health", "name": "Sanar" },
-    "inducir": { "icon": "ra-frozen-arrow", "name": "Esta habilidad induce daño elemental en un arma" },
+    "inducir": { "icon": "ra-frozen-arrow", "name": "Esta habilidad induce da&ntilde;o elemental en un arma" },
+    "inmune": { "icon": "ra-fire-shield", "name": "Inmunidad" },
+    "esquiva": { "icon": "ra-player-dodge", "name": "Esquiva" },
+    "sigilo": { "icon": "ra-hood", "name": "Sigilo" },
+    "detectar": { "icon": "ra-eyeball", "name": "Deteci&oacute;n" },
+    "autodano": { "icon": "ra-cut-palm", "name": "Causa da&ntilde;os al usuario" },
 
     "bendicion": { "icon": "ra-health-increase", "name": "Causa bendici&oacute;n" },
     "maldicion": { "icon": "ra-health-decrease", "name": "Causa maldici&oacute;n" },
@@ -56,12 +51,6 @@ $pjs.views.translateDict = {
     "doble": { "icon": "ra-bomb-explosion", "name": "Doble" },
     "triple": { "icon": "ra-defibrilate", "name": "&iexcl;TRIPLE!" },
 
-    "inmune": { "icon": "ra-fire-shield", "name": "Inmunidad" },
-    "esquiva": { "icon": "ra-player-dodge", "name": "Esquiva" },
-    "sigilo": { "icon": "ra-hood", "name": "Sigilo" },
-    "detectar": { "icon": "ra-crystal-ball", "name": "Deteci&oacute;n" },
-    "autodano": { "icon": "ra-cut-palm", "name": "Causa da&nacute;os al usuario" },
-
     "escena": { "icon": "ra-stopwatch", "name": "Por escena" },
     "ciclo": { "icon": "ra-hourglass", "name": "Por ciclo" },
     "partida": { "icon": "ra-moon-sun", "name": "Por partida" },
@@ -69,27 +58,24 @@ $pjs.views.translateDict = {
     "dirigido": { "icon": "ra-targeted", "name": "Habilidad dirigida" },
     "personal": { "icon": "ra-player", "name": "Personal: solo afecta al usuario" },
 
-    "elemental": { "icon": " ra-radial-balance", "name": "Elemento fuego, hielo, rayo, tierra o viento" },
-    "fuego": { "icon": "ra-fire-symbol", "name": "Elemento fuego" },
-    "hielo": { "icon": "ra-snowflake", "name": "Elemento hielo" },
-    "rayo": { "icon": " ra-lightning-bolt", "name": "Elemento rayo" },
-    "tierra": { "icon": "ra-emerald", "name": "Elemento tierra" },
-    "viento": { "icon": "ra-fluffy-swirl", "name": "Elemento viento" },
-    "luz": { "icon": " ra-angel-wings", "name": "Elemento luz" },
-    "oscuridad": { "icon": "ra-batwings", "name": "Elemento oscuridad" },
+    "e:fuego": { "icon": "ra-small-fire", "name": "Elemento fuego" },
+    "e:hielo": { "icon": "ra-snowflake", "name": "Elemento hielo" },
+    "e:rayo": { "icon": " ra-lightning-bolt", "name": "Elemento rayo" },
+    "e:tierra": { "icon": "ra-emerald", "name": "Elemento tierra" },
+    "e:viento": { "icon": "ra-fluffy-swirl", "name": "Elemento viento" },
+    "e:luz": { "icon": "ra-feather-wing", "name": "Elemento luz" },
+    "e:oscuridad": { "icon": "ra-dragon-wing", "name": "Elemento oscuridad" },
+    "e:elemental": { "icon": "ra-radial-balance", "name": "Elemento fuego, hielo, rayo, tierra o viento" },
 };
 
-$pjs.views.translateEffects = function(efectos) {
+module.exports = function(efectos) {
     if (efectos) {
-        $.each($pjs.views.translateDict, function(k, v) {
-            efectos = efectos.replace(k, '<i title="' + v.name + '" class="ra ' + v.icon + '"></i>');
+        _.each(dict, function(v, k) {
+            efectos = efectos.replace(k, '<i title="' + v.name + '" class="pjs-effects__icon ra ' + v.icon + '" data-toggle="tooltip" data-placement="left"></i>');
         });
 
         return efectos;
-
     } else {
-
         return "";
     }
-
 };

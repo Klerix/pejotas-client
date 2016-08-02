@@ -1,4 +1,4 @@
-var MenuItemView = require('./MenuItemView');
+var MenuView = require('./MenuView');
 
 module.exports = Marionette.View.extend({
 
@@ -8,8 +8,10 @@ module.exports = Marionette.View.extend({
         head: '.pjs__head',
         body: '.pjs__body',
         foot: '.pjs__foot',
-        menu: '.pjs-head__menu',
-        menuItems: '.menu__items',
+        menu: {
+            el: '.pjs-head__menu',
+            replaceElement: true
+        },
     },
 
     ui: {
@@ -18,7 +20,7 @@ module.exports = Marionette.View.extend({
 
     events: {
         'click @ui.brand': function() {
-            $pjs.navigate('eventos/')
+            $pjs.navigate('events/');
         },
     },
 
@@ -44,18 +46,16 @@ module.exports = Marionette.View.extend({
 
     onRender: function() {
 
-        var view = new Marionette.CollectionView({
-            childView: MenuItemView,
-            tagName: "menu",
+        var view = new MenuView({
             collection: new Backbone.Collection([
                 { name: "Inicio", icon: 'ra ra-wooden-sign', route: '/' },
                 { name: "Listar Habilidades", icon: 'ra ra-spades-card', route: '/skills/' },
                 { name: "Listar Rasgos", icon: 'ra ra-hearts-card', route: '/traits/' },
-                { name: "Subir personaje", icon: 'ra ra-player-teleport', route: 'chars/upload/' }
+                { name: "Cargar personaje", icon: 'ra ra-player-teleport', route: 'chars/load/' }
             ])
-        });
+        })
 
-        this.showChildView("menuItems", view);
+        this.showChildView("menu", view);
     }
 
 });

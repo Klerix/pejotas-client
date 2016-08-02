@@ -1,4 +1,5 @@
 var package = require('../../package.json');
+require('./helpers/handlebars');
 
 // Controllers (routers integrated)
 var EventsController = require('./controllers/EventsController'),
@@ -18,9 +19,9 @@ var Pejotas = Marionette.Application.extend({
 
         this.controllers = {
             events: new EventsController(),
-            //skills: new SkillsController(),
-            //traits: new TraitsController(),
-            //chars: new CharsController()
+            skills: new SkillsController(),
+            traits: new TraitsController(),
+            chars: new CharsController()
         };
     },
 

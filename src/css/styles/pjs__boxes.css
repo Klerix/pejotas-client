@@ -3,15 +3,12 @@
 }
 
 .pjs-box {
+    line-height: 13px;
     border: 1px solid black;
     margin: 5px;
     border-radius: 3px;
     overflow: hidden;
     text-align: left;
-}
-
-.pjs-box p {
-    margin: 0;
 }
 
 .pjs-box:hover {
@@ -26,8 +23,7 @@
 }
 
 .pjs-skill {
-    height: 25px;
-    width: 393px;
+    width: 405px;
     background: #FDFFFF;
     border: 1px solid black;
     margin: 1px 5px;

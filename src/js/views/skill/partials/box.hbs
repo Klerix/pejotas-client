@@ -1,0 +1,9 @@
+<div class="pjs-box pjs-skill linkable" {{#if style}}style="{{style}}"{{/if}} data-toggle="popover">
+    {{> effects float="right" effects=effect}}
+    {{> skill-icon}}
+    <div>
+        <strong>{{name}}</strong>
+        <br />
+        <span style="color: darkgray">{{#if category}}{{category}}, {{/if}}{{type}}</span>
+    </div>
+</div>
