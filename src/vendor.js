@@ -1,6 +1,5 @@
 // jQuery
 window.jQuery = window.$ = require('jquery');
-$.ajaxSetup({ cache: false });
 
 // Lo-dash
 window._ = require('lodash');

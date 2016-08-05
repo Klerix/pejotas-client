@@ -1,52 +1,57 @@
 var package = require('../../package.json');
-require('./helpers/handlebars');
+require('./services');
+
+$.ajaxSetup({ cache: false }); // remove in pro
+
 
 // Controllers (routers integrated)
 var EventsController = require('./controllers/EventsController'),
-    SkillsController = require('./controllers/SkillsController'),
-    TraitsController = require('./controllers/TraitsController'),
-    CharsController = require('./controllers/CharsController');
+  SkillsController = require('./controllers/SkillsController'),
+  TraitsController = require('./controllers/TraitsController'),
+  CharsController = require('./controllers/CharsController');
 
 // Layout View
 var LayoutView = require('./views/layout/LayoutView');
 
 // Create App
 var Pejotas = Marionette.Application.extend({
-    VERSION: package.version,
+  VERSION: package.version,
 
-    onBeforeStart: function() {
-        console.log("onBeforeStart")
+  onBeforeStart: function() {
+    console.log("onBeforeStart")
 
-        this.controllers = {
-            events: new EventsController(),
-            skills: new SkillsController(),
-            traits: new TraitsController(),
-            chars: new CharsController()
-        };
-    },
+    this.radio = Backbone.Radio.channel('services');
 
-    onStart: function(options) {
-        console.log("onStart")
+    this.controllers = {
+      events: new EventsController(),
+      skills: new SkillsController(),
+      traits: new TraitsController(),
+      chars: new CharsController()
+    };
+  },
 
-        this.rootView = new LayoutView();
-        this.body = this.rootView.getRegion("body");
-        this.showView(this.rootView);
+  onStart: function(options) {
+    console.log("onStart")
 
-        Backbone.history.start();
-    },
+    this.rootView = new LayoutView();
+    this.body = this.rootView.getRegion("body");
+    this.showView(this.rootView);
 
-    show: function(view) {
-        this.body.show(view);
-    },
+    Backbone.history.start();
+  },
 
-    navigate: function(url, options) {
+  show: function(view) {
+    this.body.show(view);
+  },
 
-        options = _.defaults(options || {}, {
-            trigger: true
-        });
+  navigate: function(url, options) {
 
-        Backbone.history.navigate(url, options)
-    },
+    options = _.defaults(options || {}, {
+      trigger: true
+    });
+
+    Backbone.history.navigate(url, options)
+  },
 });
 
 module.exports = Pejotas;

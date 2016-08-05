@@ -10,3 +10,8 @@
     font-size: 12px;
     box-sizing: border-box;
 }
+
+.pjs__body p {
+    margin-right: 5px;
+    margin-left: 5px;
+}

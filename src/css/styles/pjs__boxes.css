@@ -3,9 +3,12 @@
 }
 
 .pjs-box {
+    font-size: 11px;
     line-height: 13px;
+    background: #FDFFFF;
     border: 1px solid black;
     margin: 5px;
+    padding: 5px;
     border-radius: 3px;
     overflow: hidden;
     text-align: left;
@@ -24,19 +27,18 @@
 
 .pjs-skill {
     width: 405px;
-    background: #FDFFFF;
-    border: 1px solid black;
     margin: 1px 5px;
-    padding: 5px;
-    border-radius: 3px;
     float: left;
-    font-size: 11px;
+}
+
+.pjs-class {
+    width: 266px;
+    margin: 5px 5px;
+    float: left;
 }
 
 .pjs-infobox {
+    line-height: 18px;
     padding: 12px;
     margin-left: 15px;
-    border-radius: 2px;
-    background-color: #FDFFFF;
-    border: 1px solid #e1e1e8;
 }
