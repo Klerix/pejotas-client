@@ -1,8 +1,8 @@
 var Handlebars = require("hbsfy/runtime");
-var translateEffects = require('./translate-effects');
+var translateEffects = require('../../utils/translate-effects');
 
 Handlebars.registerHelper('unique', function(item, options) {
-  if ($pjs._hbsUnique != item) {
+  if ($pjs._hbsUnique != item && item) {
     $pjs._hbsUnique = item;
     return options.fn(this);
   }

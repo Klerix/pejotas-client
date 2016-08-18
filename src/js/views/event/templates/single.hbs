@@ -1,4 +1,17 @@
+<div style="float: right"><img style="padding: 0px; width:200px; height: 50px" class="pjs-box pjs-evento" src="{{custom_logo}}" /></div>
 <h2>{{name}}</h2>
-<p>{{{description}}}</p>
-<h3>Profesiones</h3>
-<div class="event__classes"></div>
+
+<div class="pjs__description">
+	<p>{{{description}}}</p>
+</div>
+<div style="clear:both"></div>
+
+
+{{>collapser target=".archetypes__wrapper" style="margin-top: 0;"}}
+<h3>Arquetipos</h3>
+<div class="collapse in archetypes__wrapper" data-toggle="collapse"></div>
+<div style="clear:both"></div>
+
+{{>collapser target=".classes__wrapper"}}
+<h3>Classes</h3>
+<div class="collapse in classes__wrapper" data-toggle="collapse"></div>

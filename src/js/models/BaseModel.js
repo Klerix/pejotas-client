@@ -1,9 +1,11 @@
 module.exports = Backbone.Model.extend({
-    baseUrl: 'http://localhost:8080/',
+  initialize: function() {
+    this.baseUrl = $pjs.server;
+  },
 
-    endpoint: '',
+  endpoint: '',
 
-    urlRoot: function() {
-        return this.baseUrl + this.endpoint;
-    },
+  urlRoot: function() {
+    return this.baseUrl + this.endpoint;
+  },
 });

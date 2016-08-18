@@ -1,10 +1,11 @@
 .pjs__description {
-    text-align: justify;
-    margin-top: 15px;
+  text-align: justify;
+  margin-top: 15px;
 }
 
 .pjs__description blockquote {
-    padding: 0 1em;
-    color: #555;
-    border-left: 0.25em solid #ddd;
+  font-size: 12px;
+  padding: 0 1em;
+  color: #555;
+  border-left: 0.25em solid #ddd;
 }

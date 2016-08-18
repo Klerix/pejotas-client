@@ -1,44 +1,48 @@
 .linkable {
-    cursor: pointer;
+  cursor: pointer;
+}
+
+.linkable-help {
+  cursor: help;
 }
 
 .pjs-box {
-    font-size: 11px;
-    line-height: 13px;
-    background: #FDFFFF;
-    border: 1px solid black;
-    margin: 5px;
-    padding: 5px;
-    border-radius: 3px;
-    overflow: hidden;
-    text-align: left;
+  font-size: 11px;
+  line-height: 13px;
+  background: #FDFFFF;
+  border: 1px solid black;
+  margin: 5px;
+  padding: 5px;
+  border-radius: 3px;
+  overflow: hidden;
+  text-align: left;
 }
 
 .pjs-box:hover {
-    background-color: aliceblue;
+  background-color: aliceblue;
 }
 
 .pjs-evento {
-    width: 400px;
-    height: 100px;
-    float: left;
-    cursor: pointer;
+  width: 400px;
+  height: 100px;
+  float: left;
+  cursor: pointer;
 }
 
 .pjs-skill {
-    width: 405px;
-    margin: 1px 5px;
-    float: left;
+  width: 405px;
+  margin: 1px 5px;
+  float: left;
 }
 
 .pjs-class {
-    width: 266px;
-    margin: 5px 5px;
-    float: left;
+  width: 266px;
+  margin: 5px 5px;
+  float: left;
 }
 
 .pjs-infobox {
-    line-height: 18px;
-    padding: 12px;
-    margin-left: 15px;
+  line-height: 18px;
+  padding: 12px;
+  margin-left: 15px;
 }

@@ -1,7 +1,52 @@
-<p>Name: {{name}}</p>
+<h2>Personaje</h2>
+<div class="input-group">
+  
+  <span class="input-group-addon"><i class="ra ra-player ra-lg"></i> Nombre:</span>
+  <input class="form-control char__name" value="{{name}}" />
 
-<p>Event: {{eventModel.attributes.name}}</p>
-<p>Class: {{class}}</p>
-<p>Archetype: {{archetype}}</p>
+  <span class="linkable-help input-group-addon char__event-label"><i class="ra ra-wooden-sign ra-lg"></i> Evento:</span>
+  <div class="input-group-btn">
+    <button type="button" class="btn btn-default dropdown-toggle char__event" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Evento...</button>
+    <div class="dropdown-menu  dropdown-menu-right char__event-list"></div>
+  </div>
 
-<p>Skills: {{skills}}</p>
+  <div class="input-group-btn">
+    <button type="button" class="btn btn-primary dropdown-toggle char__actions" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Acciones</button>
+    <div class="dropdown-menu dropdown-menu-right char__actions-list">
+      <a class="dropdown-item linkable action__print"><i class="ra ra-scroll-unfurled ra-lg"></i> Version imprimible</a>
+      <a class="dropdown-item linkable action__share"><i class="ra ra-player-teleport ra-lg"></i> Compartir personaje</a>
+    </div>
+  </div>
+
+</div>
+
+<br/>
+
+<div class="char__after-event">
+	<div class="input-group">
+
+	  <span class="linkable-help input-group-addon char__archetype-label"><i class="ra ra-hearts-card ra-lg"></i> Arquetipo:</span>
+	  <div class="input-group-btn">
+	    <button type="button" class="btn btn-default dropdown-toggle char__archetype" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Arquetipo...</button>
+	    <div class="dropdown-menu char__archetype-list"></div>
+	  </div>
+
+	  <span class="linkable-help input-group-addon char__class-label"><i class="ra ra-spades-card ra-lg"></i> Clase:</span>
+	  <div class="input-group-btn">
+	    <button type="button" class="btn btn-default dropdown-toggle char__class" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Clase...</button>
+	    <div class="dropdown-menu dropdown-menu-right char__class-list"></div>
+	  </div>
+
+	</div>
+  
+  {{> collapser target=".char__traits" style="margin-top: 0"}}
+  <h3>Rasgos</h3>
+  <div style="clear:both"></div>
+  <div class="collapse in char__traits"></div>
+  <div style="clear:both"></div>
+  
+  {{> collapser target=".char__skills"}}
+  <h3>Habilidades</h3>
+  <div style="clear:both"></div>
+  <div class="collapse in char__skills"></div>
+</div>

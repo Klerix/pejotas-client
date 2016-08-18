@@ -1,0 +1,39 @@
+.dropdown-menu {
+  overflow-y: scroll;
+  overflow-x: hidden;
+  max-height: 460px;
+  padding: 5px;
+}
+
+.char__event,
+.char__archetype,
+.char__class {
+  margin-right: 0 !important;
+  margin-left: 0 !important;
+  text-align: left;
+  text-align: left;
+}
+
+.char__archetype,
+.char__class {
+  padding-top: 0;
+  padding-bottom: 0;
+  width: 303px;
+  height: 37px;
+}
+
+.char__event {
+  width: 125px;
+}
+
+.char__event::after,
+.char__archetype::after,
+.char__class::after {
+  position: absolute;
+  right: 5px;
+  top: 16px;
+}
+
+.char__event-list a {
+  padding: 2px;
+}

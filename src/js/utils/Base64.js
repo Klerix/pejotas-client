@@ -21,7 +21,7 @@ module.exports = (function() {
     },
     toInt: function(digitsStr) {
       var result = 0;
-      var digits = digitsStr.split('');
+      var digits = ("" + digitsStr).split('');
       for (var i = 0; i < digits.length; i++) {
         result = (result << 6) + digitsMap[digits[i]];
       }

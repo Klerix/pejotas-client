@@ -5,29 +5,21 @@ var SkillSingleView = require('../views/skill/SkillSingleView');
 
 module.exports = Marionette.AppRouter.extend({
 
-    appRoutes: {
-        'skills(/)': 'list',
-        'skills/:id(/)': 'show',
+  appRoutes: {
+    'skills(/)': 'list',
+    'skills/:id(/)': 'show',
+  },
+  controller: {
+    list: function() {
+      console.log('SkillsController::list');
+
+      $pjs.show(new SkillListView, { collection: new SkillCollection });
     },
-    controller: {
-        list: function() {
-            console.log('SkillsController::list');
 
-            var col = new SkillCollection();
-            $.when(col.fetch()).then(function() {
-                var view = new SkillListView({ collection: col });
-                $pjs.show(view);
-            });
-        },
+    show: function(id) {
+      console.log('SkillsController::show');
 
-        show: function(id) {
-            console.log('SkillsController::show');
-
-            var model = new SkillModel({ id: id });
-            $.when(model.fetch()).then(function() {
-                var view = new SkillSingleView({ model: model });
-                $pjs.show(view);
-            });
-        }
+      $pjs.show(new SkillSingleView, { model: new SkillModel({ id: id }) });
     }
+  }
 });

@@ -19,6 +19,5 @@ module.exports = Marionette.CollectionView.extend({
     onBeforeDetach: function() {
       this.ui.box.tooltip('dispose');
     }
-  }),
-  collection: this.collection
+  })
 });

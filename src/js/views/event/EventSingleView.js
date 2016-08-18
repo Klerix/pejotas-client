@@ -1,21 +1,23 @@
 var ClassListView = require('../class/ClassListView');
 var ClassCollection = require('../../collections/ClassCollection');
+var ArchetypeCollection = require('../../collections/ArchetypeCollection');
 
 module.exports = Marionette.View.extend({
-    template: require('./templates/single.hbs'),
+  template: require('./templates/single.hbs'),
 
-    regions: {
-        classes: {
-            el: '.event__classes',
-            replaceElement: true
-        }
-    },
+  regions: {
+    archetypes: '.archetypes__wrapper',
+    classes: '.classes__wrapper',
+  },
 
-    onRender: function() {
-        var col = new ClassCollection();
-        col.add(this.model.attributes.classes);
+  onRender: function() {
+    $pjs.radio.request('events:setGlobal', this.model.attributes.id);
 
-        var view = new ClassListView({ collection: col });
-        this.showChildView("classes", view);
-    }
+    var acol = new ArchetypeCollection(this.model.attributes.archetypes);
+    $pjs.show(this.getRegion("archetypes"), new ClassListView({ collection: acol }))
+
+    var ccol = new ClassCollection(this.model.attributes.classes);
+    $pjs.show(this.getRegion("classes"), new ClassListView({ collection: ccol }))
+
+  }
 });

@@ -10,6 +10,7 @@ window.Tether = require('tether');
 // Backbone
 window.Backbone = require('backbone');
 Backbone.$ = $
+require('backbone-fetch-cache');
 
 // Marionette
 window.Marionette = require('backbone.marionette')

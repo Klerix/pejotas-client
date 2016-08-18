@@ -1,5 +1,5 @@
 .pjs {
-    font-family: verdana;
+  font-family: verdana;
 }
 
 .pjs h1,
@@ -8,5 +8,6 @@
 .pjs h4,
 .pjs h5,
 .pjs h6 {
-    font-family: fantasy;
+  font-family: fantasy;
+  font-weight: normal;
 }

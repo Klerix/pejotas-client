@@ -1,0 +1,20 @@
+<div>
+	{{> effects float="right" effects=effect}}
+    {{> class-icon}}
+
+	<h2>{{name}}</h2>
+	<span style="color: darkgray">
+		{{#if type}}<strong>Tipo:</strong>{{type}}{{else}}Arquetipo{{/if}}
+	</span>
+</div>
+
+<div class="pjs__description">
+	{{{description}}}
+</div>
+
+{{#if type}}<h2>Habilidades</h2>{{else}}<h2>Rasgos</h2>{{/if}}
+<div class="skills__wrapper"></div>
+<div style="clear:both"></div>
+
+<h2>Disponible para...</h2>
+<div class="events__wrapper"></div>

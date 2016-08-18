@@ -1,6 +1,6 @@
 var CharSingleView = require('../views/char/CharSingleView');
-var EventModel = require('../models/EventModel');
-var ClassCollection = require('../collections/ClassCollection');
+var EventCollection = require('../collections/EventCollection');
+var CharRadio = require('../radios/CharRadio');
 
 module.exports = Marionette.AppRouter.extend({
 
@@ -9,37 +9,34 @@ module.exports = Marionette.AppRouter.extend({
     //'chars/load(/)': 'load',
   },
 
+  initialize: function() {
+    this.radio = new CharRadio;
+  },
+
   controller: {
 
-    compose: function(event, cl, archetype, skills, name) {
+    compose: function(eid, cid, aid, sids, name) {
       console.log("CharsController::compose")
-      var object = {
-        event: event || 0,
-        class: cl || 0,
-        archetype: archetype || 0,
-        skills: skills || 0,
-        name: name || ''
-      };
 
-      var char = $pjs.radio.request("char:decode", object);
+      var char = $pjs.radio.request("chars:decode", {
+        eventId: eid,
+        classId: cid,
+        archetypeId: aid,
+        skillIds: sids,
+        name: name || 'Nuevo Personaje'
+      });
 
-      char.eventModel = new EventModel({ id: char.event || 1 });
-      char.classCol = new ClassCollection();
-      //char.archetypeCol = new ArchetypeCollection();
+      var view = new CharSingleView();
+      view.char = char;
 
-      $.when(
-        char.eventModel.fetch(),
-        char.classCol.fetch()
-        //char.archetypeCol.fetch()
-      ).then(function() {
-        var view = new CharSingleView({ char: char });
-        $pjs.show(view);
-      })
+      $pjs.show(view, {
+        eventsCol: new EventCollection()
+      });
     },
 
     load: function() {
       console.log("CharsController::load")
-    }
+    },
 
   }
 });
