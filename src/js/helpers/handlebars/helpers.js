@@ -1,5 +1,6 @@
 var Handlebars = require("hbsfy/runtime");
 var translateEffects = require('../../utils/translate-effects');
+var translateType = require('../../utils/translate-type');
 
 Handlebars.registerHelper('unique', function(item, options) {
   if ($pjs._hbsUnique != item && item) {
@@ -9,12 +10,21 @@ Handlebars.registerHelper('unique', function(item, options) {
 });
 
 Handlebars.registerHelper('remove-diacritics', function(name, options) {
-  return slugify(name, '-', 'lowercase');
+  if (name) {
+    return slugify(name, '-', 'lowercase');
+  } else {
+    return "";
+  }
 });
 
 
 Handlebars.registerHelper('iconize-effects', function(name) {
   return translateEffects(name);
+});
+
+
+Handlebars.registerHelper('iconize-type', function(type) {
+  return translateType(type);
 });
 
 Handlebars.registerHelper('summ', function(text) {

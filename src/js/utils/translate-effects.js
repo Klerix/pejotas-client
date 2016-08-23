@@ -37,6 +37,7 @@ var dict = {
   "sigilo": { "icon": "ra-hood", "name": "Sigilo" },
   "detectar": { "icon": "ra-eyeball", "name": "Deteci&oacute;n" },
   "autodano": { "icon": "ra-cut-palm", "name": "Causa da&ntilde;os al usuario" },
+  "disipar": { "icon": "ra-x-mark", "name": "Disipa magia y efectos" },
 
   "bendicion": { "icon": "ra-health-increase", "name": "Causa bendici&oacute;n" },
   "maldicion": { "icon": "ra-health-decrease", "name": "Causa maldici&oacute;n" },
@@ -50,10 +51,6 @@ var dict = {
 
   "doble": { "icon": "ra-bomb-explosion", "name": "Doble" },
   "triple": { "icon": "ra-defibrilate", "name": "&iexcl;TRIPLE!" },
-
-  "escena": { "icon": "ra-stopwatch", "name": "Por escena" },
-  "ciclo": { "icon": "ra-hourglass", "name": "Por ciclo" },
-  "partida": { "icon": "ra-moon-sun", "name": "Por partida" },
 
   "dirigido": { "icon": "ra-targeted", "name": "Habilidad dirigida" },
   "personal": { "icon": "ra-player", "name": "Personal: solo afecta al usuario" },
