@@ -45,7 +45,7 @@ var dict = {
   "sellado": { "icon": "ra-speech-bubble", "name": "Causa sellado" },
   "aturdido": { "icon": "ra-broken-skull", "name": "Causa aturdido" },
   "paralizado": { "icon": "ra-bear-trap", "name": "Causa paralizado" },
-  "derribado": { "icon": "ra-falling-down", "name": "Causa derribado" },
+  "derribado": { "icon": "ra-falling", "name": "Causa derribado" },
   "despedido": { "icon": "ra-splash", "name": "Causa despedido" },
   "cegado": { "icon": "ra-bleeding-eye", "name": "Causa cegado" },
   "rompe-escudos": { "icon": "ra-cracked-shield", "name": "Rompe escudos" },
