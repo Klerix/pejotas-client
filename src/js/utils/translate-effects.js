@@ -38,6 +38,7 @@ var dict = {
   "detectar": { "icon": "ra-eyeball", "name": "Deteci&oacute;n" },
   "autodano": { "icon": "ra-cut-palm", "name": "Causa da&ntilde;os al usuario" },
   "disipar": { "icon": "ra-x-mark", "name": "Disipa magia y efectos" },
+  "teletransporte": { "icon": "ra-player-teleport", "name": "Teletransporte" },
 
   "bendicion": { "icon": "ra-health-increase", "name": "Causa bendici&oacute;n" },
   "maldicion": { "icon": "ra-health-decrease", "name": "Causa maldici&oacute;n" },
