@@ -40,16 +40,17 @@ var dict = {
   "disipar": { "icon": "ra-x-mark", "name": "Disipa magia y efectos" },
   "teletransporte": { "icon": "ra-player-teleport", "name": "Teletransporte" },
 
-  "bendicion": { "icon": "ra-health-increase", "name": "Causa bendici&oacute;n" },
-  "maldicion": { "icon": "ra-health-decrease", "name": "Causa maldici&oacute;n" },
+  "bendito": { "icon": "ra-health-increase", "name": "Causa bendici&oacute;n" },
+  "maldito": { "icon": "ra-health-decrease", "name": "Causa maldici&oacute;n" },
   "sellado": { "icon": "ra-speech-bubble", "name": "Causa sellado" },
   "aturdido": { "icon": "ra-broken-skull", "name": "Causa aturdido" },
   "paralizado": { "icon": "ra-bear-trap", "name": "Causa paralizado" },
-  "derribado": { "icon": "ra-anchor", "name": "Causa derribado" },
+  "derribado": { "icon": "ra-falling-down", "name": "Causa derribado" },
   "despedido": { "icon": "ra-splash", "name": "Causa despedido" },
   "cegado": { "icon": "ra-bleeding-eye", "name": "Causa cegado" },
   "rompe-escudos": { "icon": "ra-cracked-shield", "name": "Rompe escudos" },
 
+  "impacto": { "icon": "ra-blaster", "name": "Impaco" },
   "doble": { "icon": "ra-bomb-explosion", "name": "Doble" },
   "triple": { "icon": "ra-defibrilate", "name": "&iexcl;TRIPLE!" },
 
@@ -57,9 +58,9 @@ var dict = {
   "personal": { "icon": "ra-player", "name": "Personal: solo afecta al usuario" },
 
   "e:fuego": { "icon": "ra-small-fire", "name": "Elemento fuego" },
-  "e:hielo": { "icon": "ra-snowflake", "name": "Elemento hielo" },
+  "e:hielo": { "icon": " ra-water-drop", "name": "Elemento agua/hielo" },
   "e:rayo": { "icon": " ra-lightning-bolt", "name": "Elemento rayo" },
-  "e:tierra": { "icon": "ra-emerald", "name": "Elemento tierra" },
+  "e:tierra": { "icon": "ra-grass", "name": "Elemento tierra" },
   "e:viento": { "icon": "ra-fluffy-swirl", "name": "Elemento viento" },
   "e:luz": { "icon": "ra-feather-wing", "name": "Elemento luz" },
   "e:oscuridad": { "icon": "ra-dragon-wing", "name": "Elemento oscuridad" },
