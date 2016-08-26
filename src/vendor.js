@@ -23,3 +23,6 @@ window.Handlebars = require('handlebars');
 
 // slugify
 window.slugify = require('url-slug');
+
+// Bootstrap select2
+require('select2');

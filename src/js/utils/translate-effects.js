@@ -58,13 +58,12 @@ var dict = {
   "personal": { "icon": "ra-player", "name": "Personal: solo afecta al usuario" },
 
   "e:fuego": { "icon": "ra-small-fire", "name": "Elemento fuego" },
-  "e:hielo": { "icon": " ra-water-drop", "name": "Elemento agua/hielo" },
-  "e:rayo": { "icon": " ra-lightning-bolt", "name": "Elemento rayo" },
+  "e:hielo": { "icon": "ra-water-drop", "name": "Elemento agua/hielo" },
+  "e:rayo": { "icon": "ra-lightning-storm", "name": "Elemento rayo" },
   "e:tierra": { "icon": "ra-grass", "name": "Elemento tierra" },
   "e:viento": { "icon": "ra-fluffy-swirl", "name": "Elemento viento" },
   "e:luz": { "icon": "ra-feather-wing", "name": "Elemento luz" },
   "e:oscuridad": { "icon": "ra-dragon-wing", "name": "Elemento oscuridad" },
-  "e:elemental": { "icon": "ra-radial-balance", "name": "Elemento fuego, hielo, rayo, tierra o viento" },
 };
 
 module.exports = function(efectos) {

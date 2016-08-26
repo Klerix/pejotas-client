@@ -6,7 +6,6 @@ module.exports = Marionette.AppRouter.extend({
 
   appRoutes: {
     'chars/(:event)(/)(:class)(/)(:archetype)(/)(:skills)(/)(:name)(/)': 'compose',
-    //'chars/load(/)': 'load',
   },
 
   initialize: function() {
@@ -17,6 +16,12 @@ module.exports = Marionette.AppRouter.extend({
 
     compose: function(eid, cid, aid, sids, name) {
       console.log("CharsController::compose")
+
+      if (!eid) eid = 0;
+      if (!cid) cid = 0;
+      if (!aid) aid = 0;
+      if (!sids) sids = "";
+      if (!name) name = "";
 
       var char = $pjs.radio.request("chars:decode", {
         eventId: eid,

@@ -1,5 +1,13 @@
+var ClassCollection = require('../../collections/ClassCollection');
+var ArchetypeCollection = require('../../collections/ArchetypeCollection');
+var ClassItemView = require('../class/ClassItemView');
+
 module.exports = Marionette.View.extend({
   template: require('./templates/single.hbs'),
+
+  regions: {
+    classes: '.skill__availability'
+  },
 
   events: {
     'click .list-link': function() {
@@ -8,17 +16,16 @@ module.exports = Marionette.View.extend({
 
     'click .pjs-skill': function() {
       $pjs.navigate(this.model.endpoint + '/' + this.model.attributes.skill_id);
-    },
-
-    'click .pjs-class': function(e) {
-      var el = $(e.currentTarget);
-      var aid = el.attr("aid");
-      if (aid) {
-        $pjs.navigate('archetypes/' + aid);
-      } else {
-        var cid = el.attr("cid");
-        $pjs.navigate('classes/' + cid);
-      }
     }
+  },
+
+  onRender: function() {
+    var col;
+    if (this.model.attributes.classes) {
+      col = new ClassCollection(this.model.attributes.classes);
+    } else {
+      col = new ArchetypeCollection(this.model.attributes.archetypes);
+    }
+    $pjs.show(this.getRegion("classes"), new ClassItemView({ collection: col }));
   }
 });

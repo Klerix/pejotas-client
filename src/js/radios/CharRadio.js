@@ -11,7 +11,7 @@ module.exports = Marionette.Object.extend({
 
   encode: function(char) {
     var o = _.extend({
-      eventId: $pjs.radio.request('events:getGlobal'),
+      eventId: 0,
       classId: 0,
       archetypeId: 0,
       skillIds: [],

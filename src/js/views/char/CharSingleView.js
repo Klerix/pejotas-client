@@ -16,16 +16,13 @@ module.exports = Marionette.View.extend({
     name: '.char__name',
 
     event: '.char__event',
-    eventList: '.char__event-list',
     eventLabel: '.char__event-label',
     afterEvent: '.char__after-event',
 
     archetypes: '.char__archetype',
-    archetypesList: '.char__archetype-list',
     archetypesLabel: '.char__archetype-label',
 
     class: '.char__class',
-    classList: '.char__class-list',
     classLabel: '.char__class-label',
   },
 
@@ -46,13 +43,65 @@ module.exports = Marionette.View.extend({
   updateUrl: function(char) {
     this.char = _.extend(this.char, char);
     var url = $pjs.radio.request('chars:encode', this.char);
-    $pjs.navigate('chars/' + url, { trigger: false, replace: true });
+    //$pjs.navigate('chars/' + url, { trigger: false, replace: true });
 
   },
 
   onAttach: function() {
-    this.populateList(this.ui.eventList, this.data.eventsCol);
+    this.populateList(this.ui.event, this.data.eventsCol);
     this.setEvent(this.char.eventId);
+
+    $('select').select2({
+      templateResult: this.selectFormat,
+      templateSelection: this.selectFormat,
+      minimumResultsForSearch: Infinity
+    });
+
+  },
+
+  selectFormat: function(data) {
+    if (!data.id) return data.text;
+    var img = $(data.element).data("thumbnail");
+    if (img) {
+      return $('<span><img src="' + img + '" class="pjs-icon pjs-icon-big" /> ' + data.text + '</span>');
+    } else {
+      return data.text;
+    }
+  },
+
+  populateList: function(list, col) {
+    list.empty();
+
+    _.each(col.models, function(v) {
+      var $el = $('<option />')
+        .attr("endpoint", col.endpoint)
+        .attr("value", v.attributes.id)
+        .text(v.attributes.name)
+        .data("thumbnail", v.attributes.custom_logo || 'images/' + col.endpoint + '/' + slugify(v.attributes.name) + '.png')
+        .on('click', this.optionSelected.bind(this));
+
+      $el.appendTo(list);
+    }.bind(this));
+
+  },
+
+  optionSelected: function(e) {
+    console.log(e)
+    var el = $(e.currentTarget);
+
+    switch (el.attr("endpoint")) {
+      case 'archetypes':
+        this.setTraits()
+        break;
+
+      case 'classes':
+        this.setSkills();
+        break;
+
+      case 'events':
+        this.setEvent(this.ui.events.val())
+        break;
+    }
   },
 
   setEvent: function(id) {
@@ -62,58 +111,21 @@ module.exports = Marionette.View.extend({
 
         this.ui.afterEvent.show();
         this.updateUrl({ eventId: id });
+
         this.data.event = new EventModel({ id: id });
-
         $.when(this.data.event.fetch($pjs.cache)).then(function() {
-          this.ui.event.text(this.data.event.attributes.name);
 
-          this.populateList(this.ui.archetypesList, new ArchetypeCollection(this.data.event.attributes.archetypes));
+          this.populateList(this.ui.archetypes, new ArchetypeCollection(this.data.event.attributes.archetypes));
           this.setTraits();
 
-          this.populateList(this.ui.classList, new ClassCollection(this.data.event.attributes.classes));
+          this.populateList(this.ui.class, new ClassCollection(this.data.event.attributes.classes));
           this.setSkills();
+
         }.bind(this));
+
       }
     } else {
       this.ui.afterEvent.hide();
-    }
-  },
-
-  populateList: function(list, col) {
-    list.empty();
-
-    _.each(col.models, function(v) {
-      var $el = $('<a/>')
-        .addClass("linkable dropdown-item")
-        .attr(col.endpoint, v.attributes.id)
-        .on('click', this.optionSelected.bind(this));
-
-      var url = 'images/' + col.endpoint + '/' + slugify(v.attributes.name) + '.png';
-      if (v.attributes.custom_logo) url = v.attributes.custom_logo;
-      $('<img />')
-        .attr("title", v.attributes.name)
-        .attr("src", url)
-        .appendTo($el);
-
-      if (!v.attributes.custom_logo) $el.append(" " + v.attributes.name);
-
-      $el.appendTo(list);
-    }.bind(this));
-
-  },
-
-  optionSelected: function(e) {
-    var el = $(e.currentTarget);
-    if (el.attr('archetypes')) {
-      this.ui.archetypes.val(el.attr('archetypes'));
-      this.setTraits()
-    } else if (el.attr('classes')) {
-      this.ui.class.val(el.attr('classes'));
-      this.setSkills();
-    } else if (el.attr('events')) {
-      this.ui.event
-        .val(el.attr('events'));
-      this.setEvent(el.attr('events'))
     }
   },
 
@@ -124,7 +136,7 @@ module.exports = Marionette.View.extend({
     this.getRegion("traits").empty();
 
     if (id) {
-      var content = this.ui.archetypesList.find('[archetypes="' + id + '"]').html();
+      var content = this.ui.archetypes.find('[archetypes="' + id + '"]').html();
       this.ui.archetypes.html(content);
 
       var model = new ArchetypeModel({ id: id });
@@ -142,7 +154,7 @@ module.exports = Marionette.View.extend({
     this.getRegion("skills").empty();
 
     if (id) {
-      var content = this.ui.classList.find('[classes="' + id + '"]').html();
+      var content = this.ui.class.find('[classes="' + id + '"]').html();
       this.ui.class.html(content);
 
       var model = new ClassModel({ id: id });

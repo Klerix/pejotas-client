@@ -1,5 +1,5 @@
 <div class="row">
-	
+
 	<div class="col-md-8">
 		<div>
 			{{> effects float="right" effects=effect}}
@@ -35,14 +35,9 @@
 			</div>
 		{{/if}}
 
-		<div class="skill__availability">
+		<div>
 			<strong>Disponible para:</strong>
-			{{#each classes}}
-				{{> class-box style="float: none; width: 235px; margin: 0;"}}
-			{{/each}}
-			{{#each archetypes}}
-				{{> class-box style="float: none; width: 235px; margin: 0"}}
-			{{/each}}
+			<div class="skill__availability"></div>
 		</div>
 	</div>
 

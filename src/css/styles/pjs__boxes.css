@@ -36,9 +36,15 @@
 }
 
 .pjs-class {
-  width: 266px;
-  margin: 5px 5px;
+  margin: 0;
   float: left;
+  background: none;
+  border: none;
+}
+
+.pjs-class:hover {
+  background: none;
+  border: none;
 }
 
 .pjs-infobox {

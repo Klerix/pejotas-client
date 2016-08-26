@@ -1,17 +1,35 @@
-<div style="float: right"><img style="padding: 0px; width:200px; height: 50px" class="pjs-box pjs-evento" src="{{custom_logo}}" /></div>
+<div style="float: right">
+	<button class="btn btn-large btn-primary pjs__create-buton" style="width: 200px;">
+		<i class="ra ra-player"></i> Crear Personaje
+	</button>
+
+	<br/>
+
+	<img style="padding: 0; margin: 5px 0; width:200px; height: 50px" class="pjs-box pjs-evento" src="{{custom_logo}}" />
+</div>
+
 <h2>{{name}}</h2>
 
-<div class="pjs__description">
-	<p>{{{description}}}</p>
+<div class="event__description">
+	<div class="pjs__description">
+		<p>{{{description}}}</p>
+	</div>
+	<div clas="clearfix"></div>
 </div>
-<div style="clear:both"></div>
+
+<div class="event__archetypes">
+	<h3>Arquetipos</h3>
+	<div class="archetypes__wrapper"></div>
+	<div clas="clearfix"></div>
+</div>
 
 
-{{>collapser target=".archetypes__wrapper" style="margin-top: 0;"}}
-<h3>Arquetipos</h3>
-<div class="collapse in archetypes__wrapper" data-toggle="collapse"></div>
-<div style="clear:both"></div>
+<div class="event__classes">
+	<h3>Classes</h3>
+	<div class="classes__wrapper"></div>
+	<div clas="clearfix"></div>
+</div>
 
-{{>collapser target=".classes__wrapper"}}
-<h3>Classes</h3>
-<div class="collapse in classes__wrapper" data-toggle="collapse"></div>
+<br/>
+
+<p><a class="linkable list-link" tabindex>Ver Lista de Eventos</a></p>

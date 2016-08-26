@@ -7,7 +7,7 @@ module.exports = Marionette.CollectionView.extend({
 
     events: {
 
-      'click .pjs-skill': function() {
+      'click @ui.box': function() {
         $pjs.navigate(this.model.endpoint + '/' + this.model.attributes.id);
       }
     },

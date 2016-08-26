@@ -51,7 +51,7 @@ module.exports = Marionette.View.extend({
         { name: "Eventos", icon: 'ra ra-wooden-sign', route: '/' },
         { name: "Listar Habilidades", icon: 'ra ra-spades-card', route: '/skills/' },
         { name: "Listar Rasgos", icon: 'ra ra-hearts-card', route: '/traits/' },
-        { name: "Crear Personaje", icon: 'ra ra-player', route: 'chars/load/' }
+        { name: "Crear Personaje", icon: 'ra ra-player', route: '/chars/' }
       ])
     })
 
