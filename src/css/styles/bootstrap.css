@@ -1,44 +1,46 @@
 .pjs__popover {
-  width: 407px;
-  padding: 0;
-  margin: 0;
-  max-width: 407px;
-  display: block;
+    width: 407px;
+    padding: 0;
+    margin: 0;
+    max-width: 407px;
+    display: block;
 }
 
 .pjs__popover .popover-content {
-  padding: 10px;
-  font-family: verdana;
-  font-size: 13px;
-  color: black;
-  line-height: 16px;
+    padding: 10px;
+    font-family: verdana;
+    font-size: 13px;
+    color: black;
+    line-height: 16px;
 }
 
 .tooltip {
-  font-family: verdana;
+    font-family: verdana;
 }
 
 .input-group .select2-selection {
-  border: 1px solid rgb(221, 221, 221);
-  height: 42px;
-  overflow: hidden;
+    border: 1px solid rgb(221, 221, 221);
+    height: 42px;
+    overflow: hidden;
 }
 
+.input-group-addon {}
+
 .select2-selection__arrow {
-  padding-top: 42px;
+    padding-top: 42px;
 }
 
 .select2-selection__rendered {
-  padding-top: 6px;
-  font-size: 16px;
+    padding-top: 6px;
+    font-size: 16px;
 }
 
 .select2:not(:first-child) .select2-selection {
-  border-bottom-left-radius: 0;
-  border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+    border-top-left-radius: 0;
 }
 
 .select2:not(:last-child) .select2-selection {
-  border-bottom-right-radius: 0;
-  border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+    border-top-right-radius: 0;
 }

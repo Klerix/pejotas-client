@@ -1,15 +1,25 @@
 <h2>Personaje</h2>
-<div class="input-group">
 
-  <span class="input-group-addon"><i class="ra ra-player ra-lg"></i> Nombre:</span>
-  <input class="form-control char__name" value="{{name}}" />
+<div class="row">
 
-  <span class="linkable-help input-group-addon char__event-label"><i class="ra ra-wooden-sign ra-lg"></i> Evento:</span>
-  <select data-placeholder="Evento..." class="form-control char__event" style="width: 100%"></select>
+  <div class="col-md-6">
+    <div class="input-group">
+      <span class="input-group-addon"><i class="ra ra-player ra-lg"></i> Nombre:</span>
+      <input class="form-control char__name" value="{{name}}" />
+    </div>
+  </div>
 
-  <div class="input-group-btn">
-    <button type="button" class="btn btn-primary dropdown-toggle char__actions" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Acciones</button>
+  <div class="col-md-4">
+    <div class="input-group">
+      <span class="linkable-help input-group-addon char__event-label"><i class="ra ra-wooden-sign ra-lg"></i> Evento:</span>
+      <span class="form-control char__event" ></span>
+    </div>
+  </div>
+
+  <div class="col-md-2">
+    <button type="button" class="btn btn-primary dropdown-toggle char__actions" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Acciones&nbsp;</button>
     <div class="dropdown-menu dropdown-menu-right char__actions-list">
+      <a class="dropdown-item linkable action__event"><i class="ra ra-wooden-sign ra-lg"></i> Cambiar de Evento</a>
       <a class="dropdown-item linkable action__print"><i class="ra ra-scroll-unfurled ra-lg"></i> Version imprimible</a>
       <a class="dropdown-item linkable action__share"><i class="ra ra-player-teleport ra-lg"></i> Compartir personaje</a>
     </div>
@@ -19,23 +29,22 @@
 
 <br/>
 
-<div class="char__after-event">
-  <div class="input-group">
+<div class="row">
 
-    <span class="linkable-help input-group-addon char__class-label"><i class="ra ra-spades-card ra-lg"></i> Clase:</span>
-    <select data-placeholder="Clase..." class="form-control char__class" style="width: 100%"></select>
-
-    <span class="linkable-help input-group-addon char__archetype-label"><i class="ra ra-hearts-card ra-lg"></i> Arquetipo:</span>
-    <select data-placeholder="Arquetipo..." class="form-control char__archetype" style="width: 100%"></select>
-
+  <div class="col-md-6 char__classes-section">
+    <div class="input-group">
+      <span class="linkable-help input-group-addon char__class-label"><i class="ra ra-spades-card ra-lg"></i> Clase:</span>
+      <select data-placeholder="Clase..." class="form-control char__class" style="width: 100%"></select>
+    </div>
   </div>
 
-  <h3>Rasgos</h3>
-  <div style="clear:both"></div>
-  <div class="collapse in char__traits"></div>
-  <div style="clear:both"></div>
+  <div class="col-md-6 char__archetypes-section">
+    <div class="input-group">
+      <span class="linkable-help input-group-addon char__archetype-label"><i class="ra ra-hearts-card ra-lg"></i> Arquetipo:</span>
+      <select data-placeholder="Arquetipo..." class="form-control char__archetype" style="width: 100%"></select>
+    </div>
+  </div>
 
-  <h3>Habilidades</h3>
-  <div style="clear:both"></div>
-  <div class="collapse in char__skills"></div>
 </div>
+
+  <div class="char__skills clearfix"></div>

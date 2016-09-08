@@ -1,23 +1,27 @@
 module.exports = Marionette.CollectionView.extend({
-  childView: Marionette.View.extend({
-    template: require('./templates/item.hbs'),
+    childView: Marionette.View.extend({
+        template: require('./templates/item.hbs'),
 
-    events: {
-      'click': function() {
-        $pjs.navigate(this.model.endpoint + '/' + this.model.attributes.id);
-      }
-    },
+        events: {
+            'click': function() {
+                var charcode = $pjs.radio.request('chars:encode', {
+                    eventId: this.model.attributes.id
+                });
 
-    ui: {
-      box: '.pjs-box'
-    },
+                $pjs.navigate('chars/' + charcode);
+            }
+        },
 
-    onRender: function() {
-      this.ui.box.tooltip();
-    },
+        ui: {
+            box: '.pjs-box'
+        },
 
-    onBeforeDetach: function() {
-      this.ui.box.tooltip('dispose');
-    }
-  })
+        onRender: function() {
+            this.ui.box.tooltip();
+        },
+
+        onBeforeDetach: function() {
+            this.ui.box.tooltip('dispose');
+        }
+    })
 });
