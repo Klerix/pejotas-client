@@ -9,17 +9,19 @@
     </div>
   </div>
 
-  <div class="col-md-4">
+  <div class="col-md-5">
     <div class="input-group">
-      <span class="linkable-help input-group-addon char__event-label"><i class="ra ra-wooden-sign ra-lg"></i> Evento:</span>
-      <span class="form-control char__event" ></span>
+      <span class="input-group-addon char__event-label"><i class="ra ra-wooden-sign ra-lg"></i> Evento:</span>
+      <span class="form-control" >
+        <span class="char__event"></span>
+        <span class="action__event linkable" style="float: right;" title="Cambiar de evento"><i class="ra ra-quill-ink"></i></span>
+      </span>
     </div>
   </div>
 
-  <div class="col-md-2">
-    <button type="button" class="btn btn-primary dropdown-toggle char__actions" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Acciones&nbsp;</button>
+  <div class="col-md-1" style="text-align: right; margin-left: -17px;">
+    <button type="button" class="btn btn-primary dropdown-toggle char__actions" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="ra ra-hammer"></i>&nbsp;</button>
     <div class="dropdown-menu dropdown-menu-right char__actions-list">
-      <a class="dropdown-item linkable action__event"><i class="ra ra-wooden-sign ra-lg"></i> Cambiar de Evento</a>
       <a class="dropdown-item linkable action__print"><i class="ra ra-scroll-unfurled ra-lg"></i> Version imprimible</a>
       <a class="dropdown-item linkable action__share"><i class="ra ra-player-teleport ra-lg"></i> Compartir personaje</a>
     </div>
@@ -47,4 +49,12 @@
 
 </div>
 
-  <div class="char__skills clearfix"></div>
+<div class="row">
+  <div class="col-md-8">
+    <h3>Habilidades</h3>
+    <div class="char__skills clearfix"></div>
+  </div>
+  <div class="col-md-4">
+      <h2><span class="char__phs-counter">0</span> PHs</h2>
+  </div>
+</div>

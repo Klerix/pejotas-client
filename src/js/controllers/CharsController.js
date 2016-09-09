@@ -1,5 +1,5 @@
 var CharSingleView = require('../views/char/CharSingleView');
-var EventCollection = require('../collections/EventCollection');
+var EventModel = require('../models/EventModel');
 var CharRadio = require('../radios/CharRadio');
 
 module.exports = Marionette.AppRouter.extend({
@@ -8,13 +8,13 @@ module.exports = Marionette.AppRouter.extend({
     'chars/(:event)(/)(:class)(/)(:archetype)(/)(:skills)(/)(:name)(/)': 'compose',
   },
 
-  initialize: function() {
+  initialize: function () {
     this.radio = new CharRadio;
   },
 
   controller: {
 
-    compose: function(eid, cid, aid, sids, name) {
+    compose: function (eid, cid, aid, sids, name) {
       console.log("CharsController::compose")
 
       if (!eid) eid = 0;
@@ -31,15 +31,20 @@ module.exports = Marionette.AppRouter.extend({
         name: name || 'Nuevo Personaje'
       });
 
-      var view = new CharSingleView();
-      view.char = char;
+      if (char.eventId) {
+        var view = new CharSingleView();
+        view.char = char;
 
-      $pjs.show(view, {
-        eventsCol: new EventCollection()
-      });
+        $pjs.show(view, {
+          event: new EventModel({ id: char.eventId })
+        });
+
+      } else {
+        // TO-DO: Notify error
+      }
     },
 
-    load: function() {
+    load: function () {
       console.log("CharsController::load")
     },
 

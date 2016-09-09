@@ -43,7 +43,7 @@ var Pejotas = Marionette.Application.extend({
     Backbone.history.start();
   },
 
-  show: function(region, view, fetchables) {
+  show: function(region, view, fetchables, cb) {
     if (!(region instanceof Marionette.Region)) { // If not region, shift attributes to right
       fetchables = view;
       view = region;
@@ -62,6 +62,7 @@ var Pejotas = Marionette.Application.extend({
       var promise = $.when.apply($, arr);
       promise.then(function() {
         region.show(view);
+        if (cb) cb();
       }.bind(this));
     } else {
       region.show(view);

@@ -18,6 +18,15 @@
   text-align: left;
 }
 
+.pjs-box--chosen {
+  background-color: #DDFFDD;
+  border: 1px solid darkgreen;
+}
+
+.pjs-box--chosen:hover {
+  background-color: #CCFFCC !important;
+}
+
 .pjs-box:hover {
   background-color: aliceblue;
 }

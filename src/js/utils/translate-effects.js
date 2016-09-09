@@ -15,7 +15,7 @@ var dict = {
   "a:maza": { "icon": "ra-spiked-mace", "name": "Adiestramiento: Mazas a una mano" },
   "a:martillo": { "icon": "ra-large-hammer", "name": "Adiestramiento: Maza y martillo" },
   "a:lanza": { "icon": "ra-spear-head", "name": "Adiestramiento: Lanza" },
-  "a:baston": { "icon": "ra-crystal-wand", "name": "Adiestramiento: Bastón" },
+  "a:baston": { "icon": "ra-crystal-wand", "name": "Adiestramiento: Bast&oacute;n" },
   "a:libro": { "icon": "ra-book", "name": "Adiestramiento: Libro" },
   "a:arrojadiza": { "icon": "ra-shuriken", "name": "Adiestramiento: Arrojadiza" },
   "a:arco": { "icon": "ra-crossbow", "name": "Adiestramiento: Arcos y Ballestas" },
@@ -66,9 +66,9 @@ var dict = {
   "e:oscuridad": { "icon": "ra-dragon-wing", "name": "Elemento oscuridad" },
 };
 
-module.exports = function(efectos) {
+module.exports = function (efectos) {
   if (efectos) {
-    _.each(dict, function(v, k) {
+    _.each(dict, function (v, k) {
       efectos = efectos.replace(k, '<i title="' + v.name + '" class="pjs-effects__icon ra ' + v.icon + '" data-toggle="tooltip" data-placement="left"></i>');
     });
 

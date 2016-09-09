@@ -4,19 +4,18 @@
   "description": "Pejotas client",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "deploy": "gulp --deploy",
+    "start": "gulp"
   },
   "dependencies": {
     "backbone": "^1.3.2",
     "backbone-fetch-cache": "^2.0.1",
     "backbone-lodash": "^1.1.0",
     "backbone.marionette": "^3.0.0-pre.4",
-    "bootstrap": "^4.0.0-alpha.2",
-    "diacritics": "^1.2.3",
+    "bootstrap": "^4.0.0-alpha.4",
     "handlebars": "^4.0.5",
     "jquery": "^2.2.4",
     "lodash": "^4.5.1",
-    "navigo": "^2.1.1",
     "select2": "^4.0.3",
     "tether": "^1.3.2",
     "url-slug": "^2.0.0"

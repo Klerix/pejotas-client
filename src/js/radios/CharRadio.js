@@ -21,7 +21,7 @@ module.exports = Marionette.Object.extend({
     var text = Base64.fromInt(o.eventId) +
       '/' + Base64.fromInt(o.classId) +
       '/' + Base64.fromInt(o.archetypeId) +
-      '/' + _.join(_.map(o.skillIds, Base64.fromInt), '&') +
+      '/' + _.join(_.map(o.skillIds, Base64.fromInt), '.') +
       '/' + o.name;
 
     return text;
@@ -34,7 +34,7 @@ module.exports = Marionette.Object.extend({
       eventId: Base64.toInt(o.eventId),
       classId: Base64.toInt(o.classId),
       archetypeId: Base64.toInt(o.archetypeId),
-      skillIds: _.map(_.split(o.skillIds, '&'), Base64.toInt),
+      skillIds: _.map(_.split(o.skillIds, '.'), Base64.toInt),
       name: o.name
     };
   }
