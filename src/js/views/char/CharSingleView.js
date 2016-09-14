@@ -44,6 +44,8 @@ module.exports = Marionette.View.extend({
     },
 
     'change @ui.class': function() {
+      this.chosenSkills = [];
+      this.updateUrl({ skillIds: [] });
       this.setClass()
     },
 
@@ -126,7 +128,7 @@ module.exports = Marionette.View.extend({
         .attr("value", v.attributes.id)
         .attr("selected", v.attributes.id == selected)
         .text(v.attributes.name)
-        .data("thumbnail", v.attributes.custom_logo || 'images/' + col.endpoint + '/' + slugify(v.attributes.name) + '.png')
+        .data("thumbnail", 'images/' + col.endpoint + '/' + slugify(v.attributes.name) + '.png')
         .on('click', this.optionSelected.bind(this));
 
       $el.appendTo(list);
@@ -175,7 +177,6 @@ module.exports = Marionette.View.extend({
       var region = this.getRegion("skills");
       var model = new ClassModel({ id: id });
       $pjs.show(region, new SkillTreeView(), { model: model }, function() {
-
         _.each(this.char.skillIds, function(v) {
           var el = region.$el.find('.pjs-box[sid="' + v + '"]');
           this.toggleSkill({
@@ -185,7 +186,11 @@ module.exports = Marionette.View.extend({
             el: el
           });
 
+
+
         }.bind(this));
+        this.updateChar();
+        console.log(this.chosenSkills)
       }.bind(this));
     } else {
       this.ui.class.html("Clase...");
@@ -208,7 +213,7 @@ module.exports = Marionette.View.extend({
     }
 
     this.updateUrl({ skillIds: _.map(this.chosenSkills, "id") });
-    this.updatePHs();
+    this.updateChar();
   },
 
   addSkill: function(skill) {
@@ -230,12 +235,17 @@ module.exports = Marionette.View.extend({
   },
 
   updatePHs: function() {
-    var sum = _.reduce(this.chosenSkills, function(result, value) {
+    var sum = 0;
+    sum = _.reduce(this.chosenSkills, function(result, value) {
       result += value.phs
       return result;
     }, 0);
 
     this.ui.phsCounter.text(sum);
+  },
+
+  updateChar: function() {
+    this.updatePHs();
   }
 
 
