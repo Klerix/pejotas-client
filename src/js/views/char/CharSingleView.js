@@ -185,12 +185,8 @@ module.exports = Marionette.View.extend({
             parent: parseInt(el.attr("parent")),
             el: el
           });
-
-
-
         }.bind(this));
         this.updateChar();
-        console.log(this.chosenSkills)
       }.bind(this));
     } else {
       this.ui.class.html("Clase...");
