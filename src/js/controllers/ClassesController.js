@@ -1,18 +1,22 @@
-var ClassModel = require('../models/ClassModel');
-var ClassSingleView = require('../views/class/ClassSingleView');
+var BaseController = require('./BaseController')
+var ClassesCollection = require('../collections/ClassesCollection')
+var ClassSingleView = require('../views/modules/class/single/ClassSingleView')
+var SkillsCollection = require('../collections/SkillsCollection')
+var TraitsCollection = require('../collections/TraitsCollection')
+var EventsCollection = require('../collections/EventsCollection')
 
-module.exports = Marionette.AppRouter.extend({
+var ClassesController = BaseController.extend({
+  channelName: 'classes',
+  CollectionClass: ClassesCollection,
+  SingleViewClass: ClassSingleView,
+  relations: [SkillsCollection, TraitsCollection, EventsCollection],
 
-  appRoutes: {
-    'classes/:id(/)': "show",
-  },
+  single: function (eid, id) {
+    BaseController.prototype.single.call(this, {
+      id: id,
+      eventId: eid
+    })
+  }
+})
 
-  controller: {
-    show: function(id) {
-      console.log('ClassesController::show');
-
-      $pjs.show(new ClassSingleView(), { model: new ClassModel({ id: id }) });
-    }
-  },
-
-});
+module.exports = ClassesController

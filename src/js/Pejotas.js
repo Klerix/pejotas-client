@@ -1,82 +1,71 @@
-var package = require('../../package.json');
-require('./helpers');
+var Marionette = require('backbone.marionette')
+var Backbone = require('backbone')
+var _ = require('lodash')
+var $ = Backbone.$
 
-// Controllers (routers integrated)
-var EventsController = require('./controllers/EventsController');
-var SkillsController = require('./controllers/SkillsController');
-var TraitsController = require('./controllers/TraitsController');
-var CharsController = require('./controllers/CharsController');
-var ClassesController = require('./controllers/ClassesController');
-var ArchetypesController = require('./controllers/ArchetypesController')
-
-// Layout View
-var LayoutView = require('./views/layout/LayoutView');
+var RootView = require('./views/layout/root/RootView')
+var createRouters = require('./routers')
+var WordsCollection = require('./collections/WordsCollection')
 
 // Create App
 var Pejotas = Marionette.Application.extend({
-  VERSION: package.version,
-  server: 'http://pejotas.klerix.com:8080/',
-  cache: { cache: true },
-
-  onBeforeStart: function() {
-    console.log("onBeforeStart")
-
-    this.radio = Backbone.Radio.channel('services');
-
-    this.controllers = {
-      events: new EventsController(),
-      skills: new SkillsController(),
-      traits: new TraitsController(),
-      chars: new CharsController(),
-      classes: new ClassesController(),
-      archetypes: new ArchetypesController(),
-    };
+  region: {
+    el: '#app',
+    replaceElement: true
   },
 
-  onStart: function(options) {
-    console.log("onStart")
+  channelName: 'app',
 
-    this.rootView = new LayoutView();
-    this.body = this.rootView.getRegion("body");
-    this.showView(this.rootView);
-
-    Backbone.history.start();
+  radioEvents: {
+    'navigate': 'navigate'
   },
 
-  show: function(region, view, fetchables, cb) {
-    if (!(region instanceof Marionette.Region)) { // If not region, shift attributes to right
-      fetchables = view;
-      view = region;
-      region = this.body;
-    }
-
-    if (fetchables) {
-      view.data = fetchables;
-      var arr = _.map(fetchables, function(v) {
-        return v.fetch($pjs.cache);
-      });
-
-      if (fetchables.collection) view.collection = fetchables.collection;
-      if (fetchables.model) view.model = fetchables.model;
-
-      var promise = $.when.apply($, arr);
-      promise.then(function() {
-        region.show(view);
-        if (cb) cb();
-      }.bind(this));
-    } else {
-      region.show(view);
-    }
+  radioRequests: {
+    'get:apiUrl': 'getApiUrl',
+    'get:version': 'getVersion',
+    'get:words': 'getWords'
   },
 
-  navigate: function(url, options) {
+  onBeforeStart: function () {
+    this.routers = createRouters()
+    this.wordsCollection = new WordsCollection()
+  },
 
+  onStart: function (options) {
+    $.when(
+      this.wordsCollection.fetch()
+    ).then(function () {
+      this.rootView = new RootView()
+      this.showView(this.rootView)
+
+      Backbone.history.start({
+        root: '/',
+        pushState: true
+      })
+    }.bind(this))
+  },
+
+  getVersion: function () {
+    return VERSION
+  },
+
+  getApiUrl: function () {
+    return 'http://pejotas.klerix.com/api/klerix/'
+  },
+
+  getWords: function () {
+    return this.wordsCollection
+  },
+
+  navigate: function (url, options) {
+    console.log('nav to ' + url)
     options = _.defaults(options || {}, {
       trigger: true
-    });
+    })
 
     Backbone.history.navigate(url, options)
-  },
-});
+    if (options.trigger) window.scrollTo(0, 0)
+  }
+})
 
-module.exports = Pejotas;
+module.exports = Pejotas

@@ -1,0 +1,31 @@
+<div
+	class="card linkable"
+	data-toggle="popover"
+	phs="{{totalcost}}"
+	sid="{{id}}"
+	parent="{{skill_id}}"
+>
+	<div class="card-block p-2">
+		<div class="pjs__words float-right text-right ml-2">
+			{{{words words}}}
+			<br/>
+			{{#if totalcost}}
+				<span class="badge badge-primary" title="{{totalcost}} Puntos de Habilidad">
+					{{totalcost}}PHs
+				</span>
+			{{/if}}
+		</div>
+		<div class="media">
+			{{> ../partials/icon}}
+			<div class="media-body">
+				<h4 class="card-title mt-0 mb-1">
+					{{name}}
+					{{#if hot}}
+						<span class="badge badge-danger" title="Recomendada">Hot</span>
+					{{/if}}
+				</h4>
+				<span class="card-text text-muted">{{type}}{{#if category}}, {{category}}{{/if}}</span>
+			</div>
+		</div>
+	</div>
+</div>

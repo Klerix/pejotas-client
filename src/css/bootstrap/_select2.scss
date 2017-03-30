@@ -1,0 +1,18 @@
+.select2-selection__arrow {
+    padding-top: 42px;
+}
+
+.select2-selection__rendered {
+    padding-top: 6px;
+    font-size: 16px;
+}
+
+.select2:not(:first-child) .select2-selection {
+    border-bottom-left-radius: 0;
+    border-top-left-radius: 0;
+}
+
+.select2:not(:last-child) .select2-selection {
+    border-bottom-right-radius: 0;
+    border-top-right-radius: 0;
+}

@@ -1,25 +1,19 @@
-var TraitModel = require('../models/TraitModel');
-var TraitCollection = require('../collections/TraitCollection');
-var SkillListView = require('../views/skill/SkillListView');
-var SkillSingleView = require('../views/skill/SkillSingleView');
+var BaseController = require('./BaseController')
+var TraitsCollection = require('../collections/TraitsCollection')
+var SkillSingleView = require('../views/modules/skill/single/SkillSingleView')
+var ClassesCollection = require('../collections/ClassesCollection')
 
-module.exports = Marionette.AppRouter.extend({
+module.exports = BaseController.extend({
+  channelName: 'traits',
+  CollectionClass: TraitsCollection,
+  SingleViewClass: SkillSingleView,
+  relations: [ClassesCollection],
 
-  appRoutes: {
-    'traits(/)': 'list',
-    'traits/:id(/)': 'show',
-  },
-  controller: {
-    list: function() {
-      console.log('SkillsController::list');
-
-      $pjs.show(new SkillListView, { collection: new TraitCollection });
-    },
-
-    show: function(id) {
-      console.log('SkillsController::show');
-
-      $pjs.show(new SkillSingleView, { model: new TraitModel({ id: id }) });
-    }
+  single: function (eid, cid, id) {
+    BaseController.prototype.single.call(this, {
+      id: id,
+      classId: cid,
+      eventId: eid
+    })
   }
-});
+})

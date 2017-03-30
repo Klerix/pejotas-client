@@ -1,0 +1,29 @@
+/* HEADER */
+
+.pjs header {
+  color: #fff;
+  background-color: rgb(38, 42, 55);
+  border-bottom: 3px solid rgb(38, 42, 55);
+}
+
+
+/* BRAND */
+
+.head__brand {
+  font-size: 20px;
+  font-family: heading;
+  color: #fff;
+
+  &:hover, &:active, &:focus {
+    color: #fff;
+  }
+
+  span {
+    letter-spacing: 1px;
+  }
+
+  small {
+    color: rgb(200, 200, 200);
+    font-size: 12px;
+  }
+}

@@ -1,0 +1,13 @@
+<div class="card mb-3">
+  {{#if custom_logo}}
+    <img class="card-img-top img-fluid" src="{{custom_logo}}">
+  {{/if}}
+  <div class="card-block">
+    <h3 class="card-title">{{name}}</h3>
+    <p class="card-text">{{{md description}}}</p>
+  </div>
+  <div class="card-footer text-center">
+    <button class="btn btn-sm btn-primary" title="Crear personaje"><i class="ra ra-aura" aria-hidden="true"></i> Crear</button>
+    <button class="btn btn-sm btn-secondary" title="Más información"><i class="ra ra-help" aria-hidden="true"></i> Info</button>
+  </div>
+</div>
