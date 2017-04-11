@@ -7,7 +7,7 @@ module.exports = Marionette.View.extend({
 
   regions: {
     region: {
-      el: '.body__region',
+      el: '.events__region',
       replaceElement: true
     }
   },

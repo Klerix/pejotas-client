@@ -10,3 +10,9 @@
     margin: 1.5rem 0 0.5rem 0;
   }
 }
+
+@media (max-width: 576px) {
+  .pjs__body {
+    padding-top: 10px;
+  }
+}

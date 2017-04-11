@@ -44,14 +44,7 @@ var RootView = Marionette.View.extend({
   },
 
   onRender: function () {
-    this.showChildView('breadcrumbs', new BreadcrumbsCollectionView({
-      collection: new Backbone.Collection([{
-        pre: '<i class="ra ra-trail" aria-hidden="true"></i>',
-        label: 'Inicio',
-        active: false,
-        nav: '/'
-      }])
-    }))
+    this.showChildView('breadcrumbs', new BreadcrumbsCollectionView())
   }
 
 })

@@ -1,12 +1,8 @@
-var ArchetypeModel = require('../../../models/ArchetypeModel')
-var ClassModel = require('../../../models/ClassModel')
-var EventModel = require('../../../models/EventModel')
-var SkillTreeView = require('../skill/SkillTreeView')
-var ClassCollection = require('../../../collections/ClassCollection')
-var ArchetypeCollection = require('../../../collections/ArchetypeCollection')
+var _ = require('lodash')
+var Marionette = require('backbone.marionette')
 
 module.exports = Marionette.View.extend({
-  template: require('./templates/single.hbs'),
+  template: require('./char.hbs'),
 
   chosenSkills: [],
   phs: 0,

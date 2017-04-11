@@ -9,22 +9,33 @@ var ClassesCollection = require('../../../../collections/ClassesCollection')
 module.exports = Marionette.View.extend({
   template: require('./single.hbs'),
 
+  templateContext: function () {
+    return _.extend({}, this.model, {
+      back: this.options.back
+    })
+  },
+
   regions: {
     classes: '.classes__region'
   },
 
   ui: {
-    backBtn: '.btn-secondary'
+    backBtn: '.action__back',
+    listBtn: '.action__list'
   },
 
   events: {
-    'click @ui.backBtn': function (e) {
-      e.stopPropagation()
-      Radio.channel('app').trigger(
-        'navigate',
-        'events/' + this.options.eventId + '/classes/' + this.options.classId
-      )
-    }
+    // 'click @ui.backBtn': function (e) {
+    //   e.stopPropagation()
+    //   window.history.back()
+    // }
+    // 'click @ui.listBtn': function (e) {
+    //   e.stopPropagation()
+    //   Radio.channel('app').trigger(
+    //     'navigate',
+    //     'events/' + this.options.eventId + '/classes/' + this.options.classId
+    //   )
+    // }
   },
 
   initialize: function (options) {
@@ -50,7 +61,6 @@ module.exports = Marionette.View.extend({
         return a.get('id') === b.get('id')
       }
     )
-    console.log(col)
 
     this.showChildView('classes', new ClassesCollectionView({
       collection: new ClassesCollection(col),

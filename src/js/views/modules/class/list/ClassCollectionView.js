@@ -6,6 +6,7 @@ module.exports = Marionette.CollectionView.extend({
   childView: require('./ClassItemView'),
   childViewOptions: function () {
     return {
+      choosable: this.options.choosable,
       eventId: this.options.eventId
     }
   },

@@ -14,18 +14,28 @@ module.exports = Marionette.View.extend({
   },
 
   ui: {
-    crearBtn: '.btn-primary',
-    backBtn: '.btn-secondary'
+    createBtn: '.action__char',
+    listBtn: '.action__list',
+    backBtn: '.action__back'
   },
 
   events: {
-    'click @ui.crearBtn': function (e) {
-      e.stopPropagation()
-    },
-    'click @ui.backBtn': function (e) {
-      e.stopPropagation()
-      Radio.channel('app').trigger('navigate', 'events/' + this.options.eventId)
+    'mouseup @ui.createBtn': function (e) {
+      Radio.channel('char').trigger('link:char', {
+        eventId: this.options.eventId,
+        classId: this.model.get('id')
+      }, e)
     }
+
+    // 'click @ui.listBtn': function (e) {
+    //   e.stopPropagation()
+    //   Radio.channel('app').trigger('navigate', 'events/' + this.options.eventId)
+    // },
+
+    // 'click @ui.backBtn': function (e) {
+    //   e.stopPropagation()
+    //   window.history.back()
+    // }
   },
 
   onRender: function () {

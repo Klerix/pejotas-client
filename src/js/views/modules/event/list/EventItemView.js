@@ -7,17 +7,24 @@ module.exports = Marionette.View.extend({
   template: require('./item.hbs'),
 
   ui: {
+    banner: '.card-img-top',
     createBtn: '.btn-primary',
     infoBtn: '.btn-secondary'
   },
 
   events: {
-    'click @ui.createBtn': function (e) {
-    },
+    'mouseup @ui.createBtn': 'onCreateChar',
+    'mouseup @ui.infoBtn': 'onInfoClick',
+    'mouseup @ui.banner': 'onInfoClick'
+  },
 
-    'click @ui.infoBtn': function (e) {
-      e.stopPropagation()
-      Radio.channel('app').trigger('navigate', '/events/' + this.model.get('id'))
-    }
+  onCreateChar: function (e) {
+    Radio.channel('char').trigger('link:char', {
+      eventId: this.model.get('id')
+    }, e)
+  },
+
+  onInfoClick: function (e) {
+    Radio.channel('app').trigger('link', '/events/' + this.model.get('id'), e)
   }
 })

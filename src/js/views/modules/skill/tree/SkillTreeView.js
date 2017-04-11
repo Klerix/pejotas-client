@@ -1,18 +1,49 @@
-var SkillCollection = require('../../../collections/SkillCollection')
+var Radio = require('backbone.radio')
 
-module.exports = Marionette.CollectionView.extend({
-  childView: Marionette.View.extend({
-    template: require('./templates/tree-item.hbs')
-  }),
+var SkillItemView = require('../list/SkillItemView')
 
-  serializeData: function () {
-    return this.tree
+module.exports = SkillItemView.extend({
+  className: 'skill col-12 col-md-10',
+  ui: {
+    skill: '.card',
+    icon: 'img.d-flex'
   },
 
-  onBeforeRender: function () {
-    // Order skills
-    this.collection = new SkillCollection(this.model.attributes.skills)
-    this.collection.treeSort()
-  }
+  events: {
+    'mouseup @ui.icon': 'onIconClick',
 
+    'mouseup @ui.skill': function (e) {
+      if (e.which === 2 || e.which === 4) {
+        this.onIconClick(e)
+      } else if (e.which < 2) {
+        Radio.channel('char').trigger('skill:toggle', this.model.get('id'))
+      }
+    }
+  },
+
+  onIconClick: function (e) {
+    Radio.channel('app').trigger(
+      'link',
+      '/events/' + this.options.eventId +
+      '/classes/' + this.options.classId +
+      '/' + this.model.endpoint + '/' + this.model.get('id'),
+      e
+    )
+  },
+
+  initialize: function () {
+    this.model.on('change', this.render.bind(this))
+  },
+
+  onRender: function () {
+    if (this.model.get('offset')) {
+      this.$el.addClass('offset-md-' + this.model.get('offset'))
+    }
+
+    if (this.model.get('selected')) {
+      this.$el.find('.card').addClass('skill--active')
+    } else {
+      this.$el.find('.card').removeClass('skill--active')
+    }
+  }
 })

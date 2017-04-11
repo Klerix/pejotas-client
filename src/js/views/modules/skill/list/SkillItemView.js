@@ -13,13 +13,13 @@ var SkillItemView = Marionette.View.extend({
   },
 
   events: {
-    'click @ui.skill': function (e) {
-      e.stopPropagation()
+    'mouseup @ui.skill': function (e) {
       Radio.channel('app').trigger(
-        'navigate',
+        'link',
         '/events/' + this.options.eventId +
         '/classes/' + this.options.classId +
-        '/' + this.model.endpoint + '/' + this.model.get('id')
+        '/' + this.model.endpoint + '/' + this.model.get('id'),
+        e
       )
     }
   },

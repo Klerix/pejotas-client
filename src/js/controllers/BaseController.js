@@ -24,14 +24,18 @@ var BaseController = Marionette.Object.extend({
   },
 
   getModel: function (id) {
-    if (!this.models[id]) {
-      var Model = this.CollectionClass.prototype.model
-      this.models[id] = new Model({ id: id })
+    if (id) {
+      if (!this.models[id]) {
+        var Model = this.CollectionClass.prototype.model
+        this.models[id] = new Model({ id: id })
+      }
+      return this.models[id]
+    } else {
+      return null
     }
-    return this.models[id]
   },
 
-  getCollection: function (id) {
+  getCollection: function () {
     if (!this.collection) {
       this.collection = new this.CollectionClass()
     }
@@ -39,16 +43,20 @@ var BaseController = Marionette.Object.extend({
   },
 
   getRelation: function (id, Collection) {
-    var name = Collection.prototype.endpoint
-    var model = this.getModel(id)
-    if (!model.relations[name]) {
-      var NewCol = Collection.extend({
-        endpoint: model.endpoint + '/' + id + '/' + name
-      })
-      model.relations[name] = new NewCol()
-    }
+    if (id) {
+      var name = Collection.prototype.endpoint
+      var model = this.getModel(id)
+      if (!model.relations[name]) {
+        var NewCol = Collection.extend({
+          endpoint: model.endpoint + '/' + id + '/' + name
+        })
+        model.relations[name] = new NewCol()
+      }
 
-    return model.relations[name]
+      return model.relations[name]
+    } else {
+      return null
+    }
   },
 
   list: function () {
@@ -68,6 +76,7 @@ var BaseController = Marionette.Object.extend({
   _renderList: function () {
     var view = new this.ListViewClass({ collection: this.collection })
     Radio.channel('app').trigger('render:view', view)
+    Radio.channel('breadcrumbs').trigger('set:last', '')
   },
 
   single: function (data) {
@@ -88,11 +97,13 @@ var BaseController = Marionette.Object.extend({
     data.model = this.getModel(data.id)
     var view = new this.SingleViewClass(data)
     Radio.channel('app').trigger('render:view', view)
+    Radio.channel('breadcrumbs').trigger('set:last', data.model.get('name'))
   },
 
   _renderError: function () {
     var view = new NoApiView()
     Radio.channel('app').trigger('render:view', view)
+    Radio.channel('breadcrumbs').trigger('set:last', 'Error')
   }
 })
 

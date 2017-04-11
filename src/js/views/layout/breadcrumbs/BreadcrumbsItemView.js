@@ -6,17 +6,17 @@ var ClassItemView = Marionette.View.extend({
 
   tagName: 'li',
 
+  className: 'breadcrumb-item',
+
   events: {
-    'click': function (e) {
-      e.stopPropagation()
-      Radio.channel('app').trigger('navigate', this.model.get('nav'))
+    'mouseup': function (e) {
+      Radio.channel('app').trigger('link', this.model.get('nav'), e)
     }
   },
 
-  initialize: function (options) {
-    this.className = 'breadcrumb-item'
-    if (options.model.get('active')) {
-      this.className += ' active'
+  onRender: function () {
+    if (this.model.get('active')) {
+      this.$el.addClass('active')
     }
   }
 })

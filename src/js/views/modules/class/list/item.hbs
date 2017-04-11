@@ -1,14 +1,6 @@
-<div class="card mb-3">
-  <div class="card-block">
-		<div class="pjs__words float-right">{{{words words}}}</div>
-		<div class="media">
-			{{> ../partials/icon}}
-			<div class="media-body">
-				<h4 class="card-title mt-0 mb-1">{{name}}</h4>
-				<span class="card-text text-muted">Clase {{type}}</span>
-			</div>
-		</div>
-  </div>
+<div class="card mb-3{{#if choosable}} linkable{{/if}}">
+	{{> ../partials/cardblock}}
+	{{#unless choosable}}
 	<div class="card-footer text-center">
 		<button class="btn btn-sm btn-primary" title="Crear personaje" tabindex="-1">
 			<i class="ra ra-aura"></i> Crear
@@ -17,4 +9,5 @@
 			<i class="ra ra-help"></i> Info
 		</button>
 	</div>
+	{{/unless}}
 </div>
