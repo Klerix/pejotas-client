@@ -12,7 +12,7 @@
   }
 }
 
-.phs {
+#phs {
   border: 7px solid rgba(0, 0, 0, 0.125);
   border-radius: 50%;
   position: relative;
@@ -29,7 +29,7 @@
     bottom: 0;
     left: -25px;
     background-color: rgba(4, 172, 255, 0.125);
-    height: 50%;
+    height: 0%;
   }
 
   span {
@@ -41,17 +41,17 @@
 }
 
 .phs--good::before {
-  background-color: rgba(92, 184, 92, 0.25);
+  background-color: rgba(92, 184, 92, 0.25) !important;
 }
 
 .phs--warning::before {
-  background-color: rgba(240, 173, 78, 0.5);
+  background-color: rgba(240, 173, 78, 0.5) !important;
 }
 
 .phs--error::before {
-  background-color: rgba(217, 83, 79, 0.75)
+  background-color: rgba(217, 83, 79, 0.75) !important;
 }
 
 @for $i from 0 through 100 {
-  .phs--p#{$i}::before { height: 0% + $i; }
+  .phs--p#{$i}::before { height: 0% + $i !important; }
 }

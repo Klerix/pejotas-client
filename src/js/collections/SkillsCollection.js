@@ -17,8 +17,8 @@ var SkillsCollection = BaseCollection.extend({
     var models = []
 
     _.each(this.where({ skill_id: id }), function (m) {
-      m.attributes.offset = offset
-      models = _.concat(models, [m], this.getSonsOf(m.attributes.id, offset + 1))
+      m.set('offset', offset)
+      models = _.concat(models, [m], this.getSonsOf(m.get('id'), offset + 1))
     }.bind(this))
 
     return models
@@ -60,6 +60,12 @@ var SkillsCollection = BaseCollection.extend({
 
       this.trigger('selection:changed')
     }
+  },
+
+  unselectAll: function () {
+    this.models.forEach(function (model) {
+      model.set('selected', false)
+    })
   },
 
   isSkillSelected: function (id) {

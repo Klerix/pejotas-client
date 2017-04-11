@@ -18,7 +18,8 @@ var CharsController = Marionette.Object.extend({
 
   radioEvents: {
     'link:char': 'link',
-    'navigate:char': 'navigate'
+    'navigate:char': 'navigate',
+    'skill:toggle': 'toggleSkill'
   },
 
   encode: function (char) {
@@ -71,13 +72,35 @@ var CharsController = Marionette.Object.extend({
       name: name || 'Nuevo'
     })
 
-    var char = new CharModel(data)
-    char.fetch().then(function () {
-      var view = new CharView({ model: char })
+    if (this.char) {
+      this.char.off('change', _updateUrl)
+      if (this.char.skills) this.char.skills.off('selection:changed', _updateSkills)
+    }
+
+    this.char = new CharModel(data)
+    this.char.on('change', _updateUrl.bind(this.char))
+    if (this.char.skills) this.char.skills.on('selection:changed', _updateSkills.bind(this.char))
+
+    this.char.fetch().then(function () {
+      this.char.markSelectedSkills()
+      var view = new CharView({ model: this.char })
       Radio.channel('app').trigger('render:view', view)
       Radio.channel('breadcrumbs').trigger('set', [], 'Editor de Personajes')
-    })
+    }.bind(this))
+  },
+
+  toggleSkill: function (id) {
+    if (this.char && this.char.skills) this.char.skills.toggleSkill(id)
   }
 })
+
+var _updateUrl = function () {
+  Radio.channel('app').trigger('navigate', this.getUrl(), { trigger: false, replace: true })
+}
+
+var _updateSkills = function () {
+  this.attributes.skillIds = this.skills.getSelected().pluck('id')
+  _updateUrl.apply(this)
+}
 
 module.exports = CharsController

@@ -11,18 +11,22 @@ var CharModel = Backbone.Model.extend({
   initialize: function (options) {
     // models & cols
     this.availableEvents = Radio.channel('events').request('get:collection')
-    this._onEventChanged()
-    this._onClassChanged()
+    this._loadEvent()
+    this._loadClass()
+  },
 
-    // Model changes
-    this.on('change', this._updateUrl.bind(this))
-    this.on('change:eventId', this._onEventChanged.bind(this))
-    this.on('change:classId', this._onClassChanged.bind(this))
-    this.on('change:skillIds', this._onSkillsChanged.bind(this))
+  _loadEvent: function () {
+    var ch = Radio.channel('events')
+    this.event = ch.request('get:model', this.get('eventId'))
+    this.availableClasses = ch.request('get:relation', this.get('eventId'), ClassesCollection)
+  },
 
-    // Radio listeners
-    var charCh = Radio.channel('char')
-    charCh.on('skill:toggle', this.toggleSkill.bind(this))
+  _loadClass: function () {
+    var ch = Radio.channel('classes')
+    this.class = ch.request('get:model', this.get('classId'))
+    this.traits = ch.request('get:relation', this.get('classId'), TraitsCollection)
+    this.skills = ch.request('get:relation', this.get('classId'), SkillsCollection)
+    this.markSelectedSkills()
   },
 
   fetch: function () {
@@ -36,11 +40,7 @@ var CharModel = Backbone.Model.extend({
       if (this.class && this.class.get('id')) {
         if (!this.class.get('name')) fetch.push(this.class.fetch(opt))
         if (!this.traits.models.length) fetch.push(this.traits.fetch(opt))
-        if (!this.skills.models.length) {
-          fetch.push(this.skills.fetch(_.extend({
-            success: this._onSkillsChanged.bind(this)
-          }, opt)))
-        }
+        if (!this.skills.models.length) fetch.push(this.skills.fetch(opt))
       }
     }
 
@@ -51,38 +51,13 @@ var CharModel = Backbone.Model.extend({
     return '/char/' + Radio.channel('char').request('encode', this.attributes)
   },
 
-  _updateSkills: function () {
-    this.attributes.skillIds = this.skills.getSelected().pluck('id')
-    this._updateUrl()
-  },
-
-  _updateUrl: function () {
-    Radio.channel('app').trigger('navigate', this.getUrl(), { trigger: false, replace: true })
-  },
-
-  _onEventChanged: function () {
-    var ch = Radio.channel('events')
-    this.event = ch.request('get:model', this.get('eventId'))
-    this.availableClasses = ch.request('get:relation', this.get('eventId'), ClassesCollection)
-  },
-
-  _onClassChanged: function () {
-    var ch = Radio.channel('classes')
-    this.class = ch.request('get:model', this.get('classId'))
-    this.traits = ch.request('get:relation', this.get('classId'), TraitsCollection)
-    this.skills = ch.request('get:relation', this.get('classId'), SkillsCollection)
-
-    this.skills.on('selection:changed', this._updateSkills.bind(this))
-  },
-
-  _onSkillsChanged: function () {
-    this.get('skillIds').forEach(function (id) {
-      this.skills.get(id).set('selected', true)
-    }.bind(this))
-  },
-
-  toggleSkill: function (id) {
-    if (this.skills) this.skills.toggleSkill(id)
+  markSelectedSkills: function () {
+    if (this.skills && this.skills.models.length) {
+      this.skills.unselectAll()
+      this.get('skillIds').forEach(function (id) {
+        this.skills.get(id).set('selected', true)
+      }.bind(this))
+    }
   },
 
   getPHs: function () {

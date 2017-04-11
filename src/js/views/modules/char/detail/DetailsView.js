@@ -14,8 +14,7 @@ module.exports = Marionette.View.extend({
   ui: {
     changeClassBtn: '.change-class__action',
     infoBtn: '.info__action',
-    phs: '.phs',
-    phsLabel: '.phs span'
+    phs: '#phs'
   },
 
   regions: {
@@ -40,7 +39,7 @@ module.exports = Marionette.View.extend({
   },
 
   initialize: function () {
-    this.model.skills.on('selection:changed', this.renderPHs.bind(this))
+    this.listenTo(this.model.skills, 'selection:changed', this.renderPHs.bind(this))
   },
 
   onRender: function () {
@@ -48,17 +47,18 @@ module.exports = Marionette.View.extend({
       this.showChildView('skills', new SkillTreeCollectionView({
         item: 'habilidades',
         collection: this.model.skills.getTree(),
-        eventId: this.model.event.get('id'),
-        classId: this.model.class.get('id'),
+        eventId: this.model.get('eventId'),
+        classId: this.model.get('classId'),
         tree: true
       }))
       this.showChildView('traits', new SkillCollectionView({
         item: 'rasgos',
         collection: this.model.traits,
-        eventId: this.model.event.get('id'),
-        classId: this.model.class.get('id')
+        eventId: this.model.get('eventId'),
+        classId: this.model.get('classId')
       }))
     }
+
     this.renderPHs()
   },
 
@@ -67,8 +67,8 @@ module.exports = Marionette.View.extend({
     var phs = this.model.skills.getPHs()
     var percent = Math.round(phs * 100 / max)
 
-    this.ui.phsLabel.text(phs)
-    this.ui.phs.attr('class', 'phs phs--p' + percent)
+    this.ui.phs.html('<span>' + phs + '</span>')
+    this.ui.phs.attr('class', 'phs--p' + percent)
 
     if (phs === max) {
       this.ui.phs.addClass('phs--error')

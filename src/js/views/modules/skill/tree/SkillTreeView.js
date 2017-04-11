@@ -1,9 +1,13 @@
 var Radio = require('backbone.radio')
+var Marionette = require('backbone.marionette')
 
-var SkillItemView = require('../list/SkillItemView')
+var popoverTemplate = require('../partials/popover.hbs')
 
-module.exports = SkillItemView.extend({
+module.exports = Marionette.View.extend({
+  template: require('../list/item.hbs'),
+
   className: 'skill col-12 col-md-10',
+
   ui: {
     skill: '.card',
     icon: 'img.d-flex'
@@ -13,6 +17,7 @@ module.exports = SkillItemView.extend({
     'mouseup @ui.icon': 'onIconClick',
 
     'mouseup @ui.skill': function (e) {
+      this.ui.skill.popover('hide')
       if (e.which === 2 || e.which === 4) {
         this.onIconClick(e)
       } else if (e.which < 2) {
@@ -32,10 +37,21 @@ module.exports = SkillItemView.extend({
   },
 
   initialize: function () {
-    this.model.on('change', this.render.bind(this))
+    this.listenTo(this.model, 'change', this.render.bind(this))
   },
 
   onRender: function () {
+    this.ui.skill.popover({
+      placement: function (context, source) {
+        var rect = source.getBoundingClientRect()
+        return (rect.top < (window.outerHeight / 2)) ? 'bottom' : 'top'
+      },
+      trigger: 'hover',
+      content: popoverTemplate(this.model.attributes),
+      html: true,
+      title: '<i class="ra ra-help" aria-label="true"></i> ' + this.model.get('name')
+    })
+
     if (this.model.get('offset')) {
       this.$el.addClass('offset-md-' + this.model.get('offset'))
     }
@@ -45,5 +61,9 @@ module.exports = SkillItemView.extend({
     } else {
       this.$el.find('.card').removeClass('skill--active')
     }
+  },
+
+  onBeforeDetach: function () {
+    this.ui.skill.popover('dispose')
   }
 })
