@@ -7,6 +7,7 @@ before_deploy:
   - echo $KNOWN_HOSTS | base64 --decode > ~/.ssh/known_hosts
   - echo $SSH_KEY | base64 --decode > ~/.ssh/id_rsa
   - npm run build
+  - chmod -R 777 public
 deploy:
   provider: script
   skip_cleanup: true
