@@ -1,7 +1,7 @@
 var Radio = require('backbone.radio')
 var Marionette = require('backbone.marionette')
 
-var popoverTemplate = require('../partials/popover.hbs')
+var popoverTemplate = require('../../common/popover.hbs')
 
 module.exports = Marionette.View.extend({
   template: require('../list/item.hbs'),
@@ -49,7 +49,8 @@ module.exports = Marionette.View.extend({
       trigger: 'hover',
       content: popoverTemplate(this.model.attributes),
       html: true,
-      title: '<i class="ra ra-help" aria-label="true"></i> ' + this.model.get('name')
+      title: '<i class="ra ra-help" aria-label="true"></i> ' + this.model.get('name'),
+      delay: 150
     })
 
     if (this.model.get('offset')) {

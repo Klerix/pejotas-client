@@ -21,21 +21,20 @@ module.exports = Marionette.View.extend({
 
   ui: {
     backBtn: '.action__back',
-    listBtn: '.action__list'
+    listBtn: '.action__list',
+    requirementLink: '.action__requirement'
   },
 
   events: {
-    // 'click @ui.backBtn': function (e) {
-    //   e.stopPropagation()
-    //   window.history.back()
-    // }
-    // 'click @ui.listBtn': function (e) {
-    //   e.stopPropagation()
-    //   Radio.channel('app').trigger(
-    //     'navigate',
-    //     'events/' + this.options.eventId + '/classes/' + this.options.classId
-    //   )
-    // }
+    'mouseup @ui.requirementLink': function (e) {
+      Radio.channel('app').trigger(
+        'link',
+        '/events/' + this.options.eventId +
+        '/classes/' + this.options.classId +
+        '/' + this.model.endpoint + '/' + this.model.get('skill_id'),
+        e
+      )
+    }
   },
 
   initialize: function (options) {

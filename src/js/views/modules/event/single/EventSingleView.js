@@ -8,8 +8,7 @@ module.exports = Marionette.View.extend({
 
   ui: {
     createBtn: '.action__char',
-    listBtn: '.action__list',
-    backBtn: '.action__back'
+    listBtn: '.action__list-skills'
   },
 
   regions: {
@@ -21,12 +20,11 @@ module.exports = Marionette.View.extend({
       Radio.channel('char').trigger('link:char', {
         eventId: this.model.get('id')
       }, e)
-    }
+    },
 
-    // 'click @ui.listBtn': function (e) {
-    //   e.stopPropagation()
-    //   Radio.channel('app').trigger('navigate', '/')
-    // },
+    'mouseup @ui.listBtn': function (e) {
+      Radio.channel('app').trigger('link', '/skills', e)
+    }
 
     // 'click @ui.backBtn': function (e) {
     //   e.stopPropagation()

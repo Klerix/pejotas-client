@@ -1,7 +1,7 @@
 var Marionette = require('backbone.marionette')
 var Radio = require('backbone.radio')
 
-var popoverTemplate = require('../partials/popover.hbs')
+var popoverTemplate = require('../../common/popover.hbs')
 
 var SkillItemView = Marionette.View.extend({
   template: require('./item.hbs'),
@@ -33,7 +33,8 @@ var SkillItemView = Marionette.View.extend({
       trigger: 'hover',
       content: popoverTemplate(this.model.attributes),
       html: true,
-      title: '<i class="ra ra-help" aria-label="true"></i> ' + this.model.get('name')
+      title: '<i class="ra ra-help" aria-label="true"></i> ' + this.model.get('name'),
+      delay: 150
     })
   },
 

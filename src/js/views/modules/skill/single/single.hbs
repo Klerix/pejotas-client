@@ -6,10 +6,22 @@
 	</div>
 </div>
 
-{{#if letany}}<p><strong>Letan&iacute;a:</strong> <em>{{letany}}</em></p>{{/if}}
+{{#if skill_id}}
+	<p class="skill__requirement">
+		<strong>Requisito:</strong> <a class="action__requirement" tabindex="-1">{{parentName}}</a>
+	</p>
+{{/if}}
+
+{{#if letany}}
+	<p class="skill__letany"><strong>Letan&iacute;a:</strong> <em>{{letany}}</em></p>
+{{/if}}
 
 <div class="description">
 	{{{md description}}}
+</div>
+
+
+
 </div>
 
 <h3 class="body__subsection">Disponible para:</h3>

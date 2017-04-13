@@ -2,6 +2,8 @@ var _ = require('lodash')
 var Marionette = require('backbone.marionette')
 var Radio = require('backbone.radio')
 
+var popoverTemplate = require('../../common/popover.hbs')
+
 var ClassItemView = Marionette.View.extend({
   template: require('./item.hbs'),
 
@@ -50,6 +52,24 @@ var ClassItemView = Marionette.View.extend({
       '/events/' + this.options.eventId + '/' + this.model.endpoint + '/' + this.model.get('id'),
       e
     )
+  },
+
+  onRender: function () {
+    this.ui.card.popover({
+      placement: function (context, source) {
+        var rect = source.getBoundingClientRect()
+        return (rect.top < (window.outerHeight / 2)) ? 'bottom' : 'top'
+      },
+      trigger: 'hover',
+      content: popoverTemplate(this.model.attributes),
+      html: true,
+      title: '<i class="ra ra-help" aria-label="true"></i> ' + this.model.get('name'),
+      delay: 150
+    })
+  },
+
+  onBeforeDetach: function () {
+    this.ui.card.popover('dispose')
   }
 })
 
