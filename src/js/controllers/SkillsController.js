@@ -1,25 +1,46 @@
-var SkillModel = require('../models/SkillModel');
-var SkillCollection = require('../collections/SkillCollection');
-var SkillListView = require('../views/skill/SkillListView');
-var SkillSingleView = require('../views/skill/SkillSingleView');
+var Radio = require('backbone.radio')
+var $ = require('jquery')
 
-module.exports = Marionette.AppRouter.extend({
+var BaseController = require('./BaseController')
+var SkillsCollection = require('../collections/SkillsCollection')
+var SkillSingleView = require('../views/modules/skill/single/SkillSingleView')
+var SkillCollectionView = require('../views/modules/skill/list/SkillCollectionView')
+var ClassesCollection = require('../collections/ClassesCollection')
 
-  appRoutes: {
-    'skills(/)': 'list',
-    'skills/:id(/)': 'show',
+module.exports = BaseController.extend({
+  channelName: 'skills',
+  CollectionClass: SkillsCollection,
+  SingleViewClass: SkillSingleView,
+  ListViewClass: SkillCollectionView,
+  relations: [ClassesCollection],
+
+  single: function (eid, cid, id) {
+    var event = Radio.channel('events').request('get:model', eid)
+    var clase = Radio.channel('classes').request('get:model', cid)
+
+    $.when(
+      event.fetch(),
+      clase.fetch()
+    )
+      .then(function () {
+        Radio.channel('breadcrumbs').trigger('set', [{
+          label: event.get('name'),
+          nav: '/events/' + event.get('id')
+        }, {
+          label: clase.get('name'),
+          nav: '/events/' + event.get('id') + '/classes/' + clase.get('id')
+        }])
+      })
+    BaseController.prototype.single.call(this, {
+      id: id,
+      classId: cid,
+      eventId: eid
+    })
   },
-  controller: {
-    list: function() {
-      console.log('SkillsController::list');
 
-      $pjs.show(new SkillListView, { collection: new SkillCollection });
-    },
-
-    show: function(id) {
-      console.log('SkillsController::show');
-
-      $pjs.show(new SkillSingleView, { model: new SkillModel({ id: id }) });
-    }
+  list: function () {
+    BaseController.prototype.list.call(this, function () {
+      Radio.channel('breadcrumbs').trigger('set:last', 'Lista de habilidades')
+    })
   }
-});
+})

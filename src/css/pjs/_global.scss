@@ -1,0 +1,47 @@
+.pjs {
+  font-family: Helvetica,Helvetica Neue,ProximaNova,Arial,sans-serif;
+  font-size: 11pt;
+
+  a {
+    cursor: pointer;
+    text-decoration: none;
+  }
+
+  button {
+    cursor: pointer;
+  }
+
+  p {
+    text-align: justify;
+  }
+
+  h2 {
+    font-size: 18pt;
+  }
+
+  h3 {
+    font-size: 14pt;
+  }
+
+  h4 {
+    font-size: 12pt;
+  }
+
+  blockquote  {
+    width: 100%;
+    border: 1px solid #555;
+    margin: 10px;
+    border-left: 5px solid #005c80;
+    font-style: italic;
+    padding: 5px;
+  }
+}
+
+.hoverable:hover {
+  background-color: azure;
+}
+
+.linkable {
+  @extend .hoverable;
+  cursor: pointer;
+}

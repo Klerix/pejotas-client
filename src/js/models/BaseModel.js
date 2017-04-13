@@ -1,11 +1,19 @@
-module.exports = Backbone.Model.extend({
-  initialize: function() {
-    this.baseUrl = $pjs.server;
-  },
+var Backbone = require('backbone')
+var $ = Backbone.$
+var Radio = Backbone.Radio
 
+var BaseModel = Backbone.Model.extend({
   endpoint: '',
 
-  urlRoot: function() {
-    return this.baseUrl + this.endpoint;
+  initialize: function () {
+    this.baseUrl = Radio.channel('app').request('get:apiUrl')
+    this.relations = {}
+    this.params = {}
   },
-});
+
+  urlRoot: function () {
+    return this.baseUrl + this.endpoint + $.param(this.params)
+  }
+})
+
+module.exports = BaseModel

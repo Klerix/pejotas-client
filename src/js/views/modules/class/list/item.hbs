@@ -1,0 +1,13 @@
+<div class="card mb-3{{#if choosable}} linkable{{/if}}">
+	{{> ../partials/cardblock}}
+	{{#unless choosable}}
+	<div class="card-footer text-center">
+		<button class="btn btn-sm btn-primary" title="Crear personaje" tabindex="-1">
+			<i class="ra ra-aura"></i> Crear
+		</button>
+		<button class="btn btn-sm btn-secondary" title="Más información" tabindex="-1">
+			<i class="ra ra-help"></i> Info
+		</button>
+	</div>
+	{{/unless}}
+</div>

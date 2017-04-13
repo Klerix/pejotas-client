@@ -1,2 +1,21 @@
+.DS_Store
+*.swp
+*.swo
+*.orig
+.idea
+ext/
+.vscode
+
+# Dependency folders
 node_modules
-public
+bower_components
+
+# temp and output folders
+coverage/
+docs/
+tmp/
+deploy/
+public/
+
+#logs
+*.log

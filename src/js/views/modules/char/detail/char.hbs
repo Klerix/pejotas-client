@@ -1,0 +1,35 @@
+<h2>Personaje</h2>
+
+<div class="row">
+
+  <div class="col-12 col-md-10 input-group">
+    <span class="input-group-addon">Nombre:</span>
+    <input class="char__name form-control" value="{{name}}" />
+
+    <span class="input-group-addon hidden-xs-down">Evento:</span>
+    <span class="char__event form-control hidden-xs-down">{{event.attributes.name}}</span>
+    <span class="input-group-btn">
+      <button class="action__event btn btn-secondary" title="Cambiar de evento">
+        <i class="ra ra-lg ra-quill-ink"></i>
+      </button>
+    </span>
+  </div>
+
+  <div class="hidden-sm-down col-md-2 text-right" role="group">
+    <div class="btn-group">
+      <button class="action__print btn btn-primary" title="Versión imprimible">
+        <i class="ra ra-lg ra-scroll-unfurled"></i>
+      </button>
+      <button class="action__share btn btn-primary" title="Compartir personaje">
+        <i class="ra ra-lg ra-player-teleport"></i>
+      </button>
+    </div>
+  </div>
+
+</div>
+
+<h3 class="body__subsection">Detalles</h3>
+<p class="body__choose-class-label">Elige una clase...</p>
+<div class="details__region"></div>
+
+{{> ../partials/sharemodal}}
