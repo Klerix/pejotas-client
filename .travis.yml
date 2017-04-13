@@ -3,7 +3,7 @@ node_js:
   - "7"
 before_deploy:
   - mkdir -p ~/.ssh
-  - echo $KNOWN_HOSTS >> ~/.ssh/known_hosts
+  - (umask 077; echo $KNOWN_HOSTS | base64 --decode > ~/.ssh/known_hosts)
   - (umask 077; echo $SSH_KEY | base64 --decode > ~/.ssh/id_rsa)
   - npm run build
 deploy:
