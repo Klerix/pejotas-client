@@ -50,7 +50,7 @@ module.exports = Marionette.View.extend({
       content: popoverTemplate(this.model.attributes),
       html: true,
       title: '<i class="ra ra-help" aria-label="true"></i> ' + this.model.get('name'),
-      delay: 150
+      delay: 500
     })
 
     if (this.model.get('offset')) {
