@@ -16,7 +16,8 @@ var SkillsCollection = BaseCollection.extend({
     offset = offset || 0
     var models = []
 
-    _.each(this.where({ skill_id: id }), function (m) {
+    var chunk = _.orderBy(this.where({ skill_id: id }), ['attributes.name'], ['asc'])
+    _.each(chunk, function (m) {
       m.set('offset', offset)
       models = _.concat(models, [m], this.getSonsOf(m.get('id'), offset + 1))
     }.bind(this))
