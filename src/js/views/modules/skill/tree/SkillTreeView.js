@@ -54,7 +54,7 @@ module.exports = Marionette.View.extend({
     })
 
     if (this.model.get('offset')) {
-      this.$el.addClass('offset-md-' + this.model.get('offset'))
+      this.$el.addClass('offset-' + this.model.get('offset'))
     }
 
     if (this.model.get('selected')) {
