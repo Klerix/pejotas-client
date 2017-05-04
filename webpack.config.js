@@ -28,6 +28,7 @@ module.exports = {
     }),
     new CopyPlugin([
       { from: 'src/index.html', to: '.' },
+	  { from: 'src/.htaccess', to: '.' },
       { from: 'src/images', to: 'img/' },
       { from: 'src/fonts', to: 'fonts/' }
     ]),
