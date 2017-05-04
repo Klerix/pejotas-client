@@ -11,6 +11,6 @@ before_deploy:
 deploy:
   provider: script
   skip_cleanup: true
-  script: scp -r public/* $HOST:/home/klerix/pejotas.klerix.com/client/public
+  script: scp -r public/. $HOST:/home/klerix/pejotas.klerix.com/client/public
   on:
     branch: master
